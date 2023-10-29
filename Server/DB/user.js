@@ -1,5 +1,6 @@
 const connectDB = require('./db');
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 require('../Passport-Config/passport');
 
 // Function to save a new user to the database
@@ -39,10 +40,42 @@ async function getUserById(id) {
         console.error('Error getting user by ID:', error);
         throw error;
     }
-};  
+};
+
+// Function to change user password
+async function changePassword(id, currentPassword, newPassword) {
+    const db = await connectDB();
+    const usersCollection = db.collection('user');
+    try {
+      // Fetch the user's current hashed password from the database
+      const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+      if (!isValidPassword) {
+        throw new Error('Current password is incorrect');
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      // Update the user's password in the database
+      const result = await usersCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { password: hashedPassword } }
+      );
+      if (result.modifiedCount !== 1) {
+        throw new Error('Password update failed');
+      }
+      return result;
+    } catch (error) {
+      console.error('Error changing password:', error);
+      throw error;
+    }
+  };
+  
 
 module.exports = { 
   saveUser, 
   getUserByEmail,
-  getUserById
+  getUserById,
+  changePassword
   };
