@@ -11,6 +11,7 @@ require('./Passport-Config/passport');
 const signupRouter = require('./Routes/signup');
 const loginRouter = require('./Routes/login');
 const logoutRouter = require('./Routes/logout');
+const changePasswordRouter = require('./Routes/changePassword');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -58,6 +59,7 @@ app.use(passport.session());
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/change-password', changePasswordRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
