@@ -12,6 +12,7 @@ const signupRouter = require('./Routes/signup');
 const loginRouter = require('./Routes/login');
 const logoutRouter = require('./Routes/logout');
 const changePasswordRouter = require('./Routes/changePassword');
+const deleteUserRouter = require('./Routes/deleteUser');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -60,6 +61,7 @@ app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/change-password', changePasswordRouter);
+app.use('/delete-user', deleteUserRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
