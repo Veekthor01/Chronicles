@@ -43,7 +43,7 @@ async function getUserById(id) {
 };
 
 // Function to change user password
-async function changePassword(id, currentPassword, newPassword) {
+async function changePassword(id, newPassword) {
     const db = await connectDB();
     const usersCollection = db.collection('user');
     try {
@@ -52,10 +52,10 @@ async function changePassword(id, currentPassword, newPassword) {
       if (!user) {
         throw new Error('User not found');
       }
-      const isValidPassword = await bcrypt.compare(currentPassword, user.password);
-      if (!isValidPassword) {
-        throw new Error('Current password is incorrect');
-      }
+     // const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+     // if (!isValidPassword) {
+      //  throw new Error('Current password is incorrect');
+      //}
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       // Update the user's password in the database
       const result = await usersCollection.updateOne(
@@ -72,10 +72,23 @@ async function changePassword(id, currentPassword, newPassword) {
     }
   };
   
+  // Function to delete a user from the database
+    async function deleteUser(id) {
+        const db = await connectDB();
+        const usersCollection = db.collection('user');
+        try {
+        const result = await usersCollection.deleteOne({ _id: new ObjectId(id) });
+        return result;
+        } catch (error) {
+        console.error('Error deleting user:', error);
+        throw error;
+        }
+    };
 
 module.exports = { 
   saveUser, 
   getUserByEmail,
   getUserById,
-  changePassword
+  changePassword,
+  deleteUser,
   };
