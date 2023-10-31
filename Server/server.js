@@ -13,8 +13,8 @@ const loginRouter = require('./Routes/login');
 const logoutRouter = require('./Routes/logout');
 const changePasswordRouter = require('./Routes/changePassword');
 const deleteUserRouter = require('./Routes/deleteUser');
-const blogpostRouter = require('./Controller/blogpostRoute');
-const commentRouter = require('./Controller/commentRoute');
+const blogpostRouter = require('./Controllers/blogpostRoute');
+const commentRouter = require('./Controllers/commentRoute');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
