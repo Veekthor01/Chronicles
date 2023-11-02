@@ -19,18 +19,18 @@ async function getBlogPosts () {
 export default async function BlogPosts () {
     const blogPosts = await getBlogPosts();
     return (
-        <>
-        {blogPosts.map((blogPost) => (
-            <div key={blogPost._id}>
-                <Link href={`/BlogPost/${blogPost._id}`}>
-                <h1>{blogPost.title}</h1>
-                <h2>{blogPost.author}</h2>
-                <h3>{blogPost.timestamp}</h3>
-                <p>{blogPost.content.slice(0, 100)}</p>
-                </Link>
-            </div>
-        ))}
-        {blogPosts.length === 0 &&(<h1>No blog posts found.</h1>)}
-        </>
-    )
+        <div className="flex flex-wrap flex-row justify-center text-black bg-orange-300">
+  {blogPosts.map((blogPost) => (
+    <div key={blogPost._id} className="bg-white rounded-lg shadow-lg p-6 m-4 w-1/5">
+      <Link href={`/BlogPost/${blogPost._id}`}>
+      <h1 className="text-xl font-bold">{blogPost.title}</h1>
+      <p className="mt-2">{blogPost.content.slice(0, 100)}</p>
+      <p className="mt-2">Author: {blogPost.author}</p>
+      <p>Published on: {blogPost.timestamp}</p>
+        </Link>
+    </div>
+  ))}
+  {blogPosts.length === 0 && <h1 className="text-xl">No blog posts found.</h1>}
+</div>
+)
 };
