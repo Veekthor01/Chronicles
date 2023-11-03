@@ -1,4 +1,5 @@
 import NewComment from "@/app/Comment/page"
+import LikePost from "../../../../Components/likes"
 
 async function getBlogPost (blogPostId) {
     const blogPost = `http://localhost:5000/blogpost/${blogPostId}`
@@ -26,6 +27,10 @@ export default async function BlogPage ({ params }) {
             <h2 className="text-lg text-center">{blogPost.author}</h2>
             <h3 className="text-sm text-center text-gray-600">{blogPost.timestamp}</h3>
             <p className="text-base text-center">{blogPost.content}</p>
+          </div>
+
+          <div>
+            <LikePost blogPost={blogPost} />
           </div>
 
             <div>
