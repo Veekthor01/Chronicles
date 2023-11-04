@@ -11,7 +11,7 @@ export default function ProfileDropdown() {
 
   return (
     <div className="relative">
-      <button onClick={toggleDropdown} className="text-blue-700">Profile</button>
+      <button onClick={toggleDropdown} className="text-blue-700 text-sm">Profile</button>
       {isOpen && (
         <ul className="absolute w-60 top-8 right-0 bg-white shadow-md p-2 text-black">
           <li>
