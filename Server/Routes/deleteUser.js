@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { deleteUser } = require('../DB/user');
+const isAuthenticated = require('../Passport-Config/Authenticated');
 
 // DELETE user by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isAuthenticated, async (req, res) => {
   const userId = req.params.id;
   try {
     // Call the deleteUser function to delete the user
