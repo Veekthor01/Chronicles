@@ -16,7 +16,7 @@ const router = express.Router();
 }); */
 
 // POST route for handling the login form submission
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
     const { email, password } = req.body;
      // Check if the email is correct or exists in the database
     const user = await getUserByEmail(email);
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
                 }
             });
         }
-    })(req, res);
+    })(req, res, next);
 });
  
 
