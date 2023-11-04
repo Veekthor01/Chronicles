@@ -27,18 +27,27 @@ export default function SignupForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email:
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit">Sign Up</button>
-    </form>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
+    <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
+    <div className="mb-4">
+      <label className="text-gray-600">Email:</label>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full py-2 px-3 rounded-lg border text-black border-gray-300 focus:outline-none focus:border-indigo-500"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="text-gray-600">Password:</label>
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full py-2 px-3 rounded-lg border text-black border-gray-300 focus:outline-none focus:border-indigo-500"
+      />
+    </div>
+    <button type="submit" className="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 w-full">Sign Up</button>
+  </form>
   );
 }
