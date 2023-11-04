@@ -2,12 +2,12 @@ const { ObjectId } = require('mongodb');
 const connectDB = require('./db');
 
 // Insert a new blog post
-async function insertBlogPost(title, author, content) {
+async function insertBlogPost(title, author, authorId, content) {
     const db = await connectDB();
     const blogCollection = db.collection('blogpost');
     const timestamp = new Date(); // Generate the current timestamp
     try {
-        const result = await blogCollection.insertOne({ title, author, timestamp, content });
+        const result = await blogCollection.insertOne({ title, author, authorId, timestamp, content });
         return result;
     } catch (error) {
         console.error('Error saving post:', error);
