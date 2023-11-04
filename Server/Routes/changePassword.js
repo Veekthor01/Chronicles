@@ -3,10 +3,11 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 require('../Passport-Config/passport');
 const { changePassword } = require('../DB/user');
+const isAuthenticated = require('../Passport-Config/Authenticated');
 
 const router = express.Router();
 
-router.put('/', async (req, res) => {
+router.put('/', isAuthenticated, async (req, res) => {
     const { currentPassword, newPassword } = req.body;
     const user = req.user; // Assuming you have the user object available in req.user
     try {
