@@ -9,6 +9,7 @@ const connectMongoDBSession = require('connect-mongodb-session');
 const connectDB = require('./DB/db');
 require('dotenv').config();
 require('./Passport-Config/passport');
+require('./Passport-Config/passportOauth');
 const signupRouter = require('./Routes/signup');
 const loginRouter = require('./Routes/login');
 const logoutRouter = require('./Routes/logout');
@@ -16,6 +17,8 @@ const changePasswordRouter = require('./Routes/changePassword');
 const deleteUserRouter = require('./Routes/deleteUser');
 const blogpostRouter = require('./Controllers/blogpostRoute');
 const commentRouter = require('./Controllers/commentRoute');
+const githubOauthRouter = require('./Routes/githubOauth');
+const googleOauthRouter = require('./Routes/googleOauth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -68,6 +71,8 @@ app.use('/change-password', changePasswordRouter);
 app.use('/delete-user', deleteUserRouter);
 app.use('/blogpost', blogpostRouter);
 app.use('/comment', commentRouter);
+app.use('/auth/github', githubOauthRouter);
+app.use('/auth/google', googleOauthRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
