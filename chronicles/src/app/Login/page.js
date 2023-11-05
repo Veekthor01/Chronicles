@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import LoginUser from './Login-User/page';
+import GitHubLogin from './Github-Login/page';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ export default function LoginForm() {
   };
 
   return (
+    <div className=''>
     <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
   <h1 className="text-2xl font-bold text-center mb-4">Sign In</h1>
   <div className="mb-4">
@@ -49,5 +51,10 @@ export default function LoginForm() {
   </div>
   <button type="submit" className="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 w-full">Sign In</button>
 </form>
+
+<div className=''>
+  <GitHubLogin />
+</div>
+    </div>
   );
 }
