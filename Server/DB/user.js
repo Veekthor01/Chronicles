@@ -42,6 +42,19 @@ async function getUserById(id) {
     }
 };
 
+// Function to get a user by GitHub ID from the database
+async function getUserByGitHubId(githubId) {
+    const db = await connectDB();
+    const usersCollection = db.collection('user');
+    try {
+      const user = await usersCollection.findOne({ githubId: githubId });
+      return user;
+    } catch (error) {
+      console.error('Error getting user by GitHub ID:', error);
+      throw error;
+    }
+  };
+
 // Function to change user password
 async function changePassword(id, newPassword) {
     const db = await connectDB();
@@ -89,6 +102,7 @@ module.exports = {
   saveUser, 
   getUserByEmail,
   getUserById,
+  getUserByGitHubId,
   changePassword,
   deleteUser,
   };
