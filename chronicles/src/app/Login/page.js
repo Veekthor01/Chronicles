@@ -1,7 +1,9 @@
 'use client'
 import React, { useState } from 'react';
+import Link from 'next/link';
 import LoginUser from './Login-User/page';
 import GitHubLogin from './Github-Login/page';
+import GoogleLogin from './Google-Login/page';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -54,6 +56,11 @@ export default function LoginForm() {
 
 <div className=''>
   <GitHubLogin />
+  <GoogleLogin />
+</div>
+<div>
+  <h1>Sign up here</h1>
+  <Link href = '/sign-up'>Sign up</Link>
 </div>
     </div>
   );
