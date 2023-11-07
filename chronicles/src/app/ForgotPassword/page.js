@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { PasswordForgot } from './Password-Forgot/page';
+import PasswordForgot from './Password-Forgot/page';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
