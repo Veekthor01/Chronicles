@@ -1,48 +1,55 @@
 'use client'
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { PasswordReset } from './Password-Reset/page';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation'
 
 export default function ResetPassword() {
-  const router = useRouter();
-  const [token, setToken] = useState(null); // Initialize with null
-  const [newPassword, setNewPassword] = useState('');
-  const [message, setMessage] = useState('');
+const [newPassword, setNewPassword] = useState('');
+const searchParams = useSearchParams()
 
-  useEffect(() => {
-    console.log('router.query:', router.query);
-    if (router.query && router.query.token) {
-        setToken(router.query.token);
-        console.log('Token:', router.query.token);
-    }
-}, [router.query]);
+const token = searchParams.get('token');
 
-  const handleResetPassword = async () => {
-    if (token) {
-      try {
-        const response = await PasswordReset(token, newPassword);
-        setMessage(response.message);
-      } catch (error) {
-        setMessage('An error occurred while processing your request.');
-      }
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  try {
+    const response = await fetch('http://localhost:5000/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ token, newPassword }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    console.log('Response Data:', data);
+    if (data.message === 'Password updated successfully.') {
+      alert('Password reset successfully!');
+      // You can add navigation or redirect to another page here
     } else {
-      setMessage('Token is missing. Please provide a valid token.');
+      alert('Error resetting password:', data.error);
     }
-  };
+  } catch (error) {
+    console.error(error);
+    alert('Error resetting password:', error.message);
+  }
+};
 
-  return (
-    <div>
-      <h2>Reset Password</h2>
-      <label className='text-gray-600'>New Password:</label>
+return (
+  <div>
+    <h1>Reset Password</h1>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="token" value={token} readOnly className='text-black'/>
+      <label>New Password:</label>
       <input
         type="password"
-        placeholder="New Password"
+        name="newPassword"
         value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
+        onChange={(event) => setNewPassword(event.target.value)}
         className='text-black'
+        required
       />
-      <button onClick={handleResetPassword}>Reset Password</button>
-      <p>{message}</p>
-    </div>
-  );
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+);
 }
