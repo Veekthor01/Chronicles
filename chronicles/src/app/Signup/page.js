@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react';
 import SignupUser from './Signup-user/page';
+import GitHubSignup from './Github-Signup/page';
+import GoogleSignup from './Google-Signup/page';
 
 export default function SignupForm() {
   const [email, setEmail] = useState('');
@@ -27,6 +29,7 @@ export default function SignupForm() {
   };
 
   return (
+    <div>
     <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
     <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
     <div className="mb-4">
@@ -49,5 +52,12 @@ export default function SignupForm() {
     </div>
     <button type="submit" className="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 w-full">Sign Up</button>
   </form>
+
+  <div className=''>
+  <GitHubSignup />
+  <GoogleSignup />
+</div>
+
+</div>
   );
 }
