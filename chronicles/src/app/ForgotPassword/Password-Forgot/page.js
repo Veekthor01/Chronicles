@@ -1,4 +1,4 @@
-export async function PasswordForgot(email) {
+export default async function PasswordForgot(email) {
     const forgotPassword = 'http://localhost:5000/forgot-password'; // Replace with the actual endpoint
     const options = {
         method: 'POST',
