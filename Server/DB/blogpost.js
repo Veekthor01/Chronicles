@@ -14,15 +14,28 @@ async function insertBlogPost(title, author, authorId, content) {
     }
 };
 
-// Get all blog posts
-async function getBlogPosts() {
+// Get all blog posts with pagination
+async function getBlogPosts(page = 1, limit = 1) {
     const db = await connectDB();
     const blogCollection = db.collection('blogpost');
     try {
-        const posts = await blogCollection.find().toArray();
+        const skip = (page - 1) * limit; // Calculate the number of items to skip
+        const posts = await blogCollection.find().skip(skip).limit(limit).toArray();
         return posts;
     } catch (error) {
         console.error('Error getting posts:', error);
+    }
+};
+
+// Calculate the total number of blog posts(used for pagination)
+async function getBlogPostCount() {
+    const db = await connectDB();
+    const blogCollection = db.collection('blogpost');
+    try {
+        const count = await blogCollection.countDocuments();
+        return count;
+    } catch (error) {
+        console.error('Error getting post count:', error);
     }
 };
 
@@ -70,6 +83,7 @@ module.exports = {
     insertBlogPost,
     getBlogPosts,
     getBlogPostById,
+    getBlogPostCount,
     updateBlogPost,
     deleteBlogPost,
 };
