@@ -19,6 +19,8 @@ const blogpostRouter = require('./Controllers/blogpostRoute');
 const commentRouter = require('./Controllers/commentRoute');
 const githubOauthRouter = require('./Routes/githubOauth');
 const googleOauthRouter = require('./Routes/googleOauth');
+const resetPasswordRouter = require('./Routes/resetPassword');
+const forgotPasswordRouter = require('./Routes/forgotPassword');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -73,6 +75,8 @@ app.use('/blogpost', blogpostRouter);
 app.use('/comment', commentRouter);
 app.use('/auth/github', githubOauthRouter);
 app.use('/auth/google', googleOauthRouter);
+app.use('/reset-password', resetPasswordRouter);
+app.use('/forgot-password', forgotPasswordRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
