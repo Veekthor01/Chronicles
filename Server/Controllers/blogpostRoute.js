@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { insertBlogPost, getBlogPosts, getBlogPostById, updateBlogPost, deleteBlogPost, } = require('../DB/blogpost');
+const { insertBlogPost, getBlogPosts, getBlogPostById, getBlogPostCount, updateBlogPost, deleteBlogPost, } = require('../DB/blogpost');
 const { getCommentsByBlogPostId } = require('../DB/comment');
 const isAuthenticated = require('../Passport-Config/Authenticated');
 
-// Get all blog posts
+// Get all blog posts with pagination
 router.get('/', async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Get the page parameter from the query or default to 1
+  const limit = parseInt(req.query.limit) || 1; // Get the limit parameter from the query or default to 10
     try {
-      const blogPosts = await getBlogPosts();
-      res.json(blogPosts);
+      const blogPosts = await getBlogPosts(page, limit);
+      const count = await getBlogPostCount();
+      res.json({ blogPosts, count });
     } catch (error) {
       res.status(500).json({ message: 'Failed to retrieve blog posts', error: error.message });
     }
@@ -34,6 +37,10 @@ router.get('/', async (req, res) => {
 // Create a new blog post
 router.post('/', isAuthenticated,  async (req, res) => {
     const { title, author, content } = req.body;
+    const user = req.user; // Assuming that your authentication middleware sets the user object
+    if (!user) {
+    return res.status(401).json({ message: 'User not authenticated.' });
+    }
     const authorId = user._id; // Set the authorId to the user's _id
     if (!title || !author || !content) {
       return res.status(400).json({ message: 'Title, author, and content are required.' });
