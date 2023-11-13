@@ -9,9 +9,9 @@ router.get('/',
 
 // Google authentication callback
 router.get('/callback', 
-passport.authenticate('google', { failureRedirect: '/signup' }),
+passport.authenticate('google', { failureRedirect: 'http://localhost:3000/login' }),
  function (req, res) {
-  res.redirect('/User');
+  res.redirect('http://localhost:3000/User');
 });
 
 module.exports = router;
