@@ -1,11 +1,14 @@
 const { ObjectId } = require('mongodb');
 const connectDB = require('./db');
+const { format } = require('date-fns');
+
 
 // Insert a new blog post
 async function insertBlogPost(title, author, authorId, content) {
     const db = await connectDB();
     const blogCollection = db.collection('blogpost');
-    const timestamp = new Date(); // Generate the current timestamp
+    const timestamp = format(new Date(), 'do MMMM, yyyy'); // Generate and format the current timestamp
+    console.log(timestamp);
     try {
         const result = await blogCollection.insertOne({ title, author, authorId, timestamp, content });
         return result;
