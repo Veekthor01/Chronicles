@@ -9,7 +9,7 @@ passport.authenticate('github'));
 
 // Github authentication callback
 router.get('/callback',
- passport.authenticate('github', { failureRedirect: '/signup' }),
+ passport.authenticate('github', { failureRedirect: 'http://localhost:3000/login' }),
  function (req, res) {
     res.redirect('http://localhost:3000/User');
 });
