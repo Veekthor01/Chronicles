@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GithubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { getUserByGitHubId, saveUser } = require('../DB/user');
+const { getUserByGitHubId, getUserByGoogleId, saveUser } = require('../DB/user');
 require('dotenv').config();
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
@@ -46,11 +46,27 @@ passport.use(
             clientSecret: GOOGLE_CLIENT_SECRET,
             callbackURL: 'http://localhost:5000/auth/google/callback',
         },
-        async (accessToken, refreshToken, profile, done) => {
-            return done(null, profile);
+        async (token, tokenSecret, profile, done) => {
+            try {
+                const googleId = profile.id;
+                // Try to find the user by Google user ID
+                let user = await getUserByGoogleId(googleId);
+                if (!user) {
+                    // If the user doesn't exist, create a new user with the Google user ID
+                    user = {
+                        googleId: googleId,
+                        // Add other relevant user data
+                    };
+                    await saveUser(user);
+                }
+                return done(null, user);
+            } catch (error) {
+                return done(error);
+            }
         }
     )
 );
+
 
 passport.serializeUser(function(user, done) {
     done(null, user);
