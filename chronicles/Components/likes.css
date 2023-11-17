@@ -1,14 +1,14 @@
-/* styles.css */
-.like-button {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #000;
-    cursor: pointer;
-    padding: 8px 12px;
-  }
-  
-  .like-button.liked {
-    background-color: red;
-    color: #fff;
-  }
-  
+/* Add this to your stylesheet */
+.heart-icon.liked-heart {
+  color: red;
+  cursor: pointer;
+}
+
+.heart-icon.unliked-heart {
+  color: gray;
+  cursor: pointer;
+}
+
+.heart-icon {
+  margin-right: 8px;
+}
