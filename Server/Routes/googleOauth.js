@@ -9,7 +9,7 @@ router.get('/',
 
 // Google authentication callback
 router.get('/callback', 
-passport.authenticate('google', { failureRedirect: 'http://localhost:3000/login' }),
+passport.authenticate('google', { failureRedirect: 'http://localhost:3000/Signup' }),
  function (req, res) {
   res.redirect('http://localhost:3000/User');
 });
