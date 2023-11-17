@@ -21,13 +21,13 @@ router.post('/', async (req, res, next) => {
      // Check if the email is correct or exists in the database
     const user = await getUserByEmail(email);
       if (!user) {
-        return res.status(400).json({ message: 'Incorrect email.' });
+        return res.status(400).json({ message: 'Incorrect email' });
       }
       // if email is correct or exists, Check if the password is correct
       if (user) {
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
-            return res.status(400).json({ message: 'Incorrect password.' });
+            return res.status(400).json({ message: 'Incorrect password' });
         }}
       // pass the request to the authentication middleware
     passport.authenticate('local', (err, user, info) => {
