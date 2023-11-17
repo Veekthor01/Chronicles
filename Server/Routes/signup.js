@@ -29,7 +29,7 @@ router.post('/', async (req, res, next) => {
      // Check if the email is already taken
      const user = await getUserByEmail(email);
      if (user) {
-         return res.status(400).json({ message: 'Email already taken.' });
+         return res.status(400).json({ message: 'Email already taken' });
      }
     // Pass the request to the authentication middleware
     passport.authenticate('local-signup', (err, user, info) => {
