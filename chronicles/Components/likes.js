@@ -1,6 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react';
-import './likes.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import './likes.css';
 
 export default function LikePost({ blogPost }) {
     const [likes, setLikes] = useState(0);
@@ -37,14 +39,13 @@ export default function LikePost({ blogPost }) {
       
   return (
     <main>
-        <div className="flex justify-center items-center">
-          <button
-            className={`like-button ${userLiked ? 'liked' : ''}`}
-            onClick={handleLike}
-          >
-            {userLiked ? 'Unlike' : 'Like'}
-          </button>
-          <span>{likes} Likes</span>
+        <div className="flex justify-start items-center">
+        <FontAwesomeIcon
+        icon={faHeart}
+        className={`heart-icon ${userLiked ? 'liked-heart' : 'unliked-heart'}`}
+        onClick={handleLike}
+      />
+          <span className='tracking-wide'>{likes} Likes</span>
         </div>
     </main>
   );
