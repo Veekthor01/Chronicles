@@ -20,47 +20,56 @@ export default async function BlogPosts({ page = 1 }) {
     const blogPostsResponse = await getBlogPosts(page, 1);
     const blogPosts = blogPostsResponse.blogPosts; // Access blogPosts from the response
     const totalBlogPosts = blogPostsResponse.count;
-    console.log('Total Blog Posts:', totalBlogPosts);
+    //console.log('Total Blog Posts:', totalBlogPosts);
   
     // Calculate the total number of pages
     const totalPages = Math.ceil(totalBlogPosts / 1);
-    console.log('Page:', page);
-    console.log('Total Pages:', totalPages);
+    //console.log('Page:', page);
+    //console.log('Total Pages:', totalPages);
 
     // Generate an array of page numbers for pagination
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
-    <div className="flex flex-wrap flex-row justify-center text-black bg-orange-300">
+    <div>
+    <div className="flex flex-wrap flex-row justify-center mt-4">
       {blogPosts.map((blogPost) => (
         <div
           key={blogPost._id}
-          className="bg-white rounded-lg shadow-lg p-6 m-4 w-1/5"
+          className="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 m-4 w-1/5"
         >
           <Link href={`/BlogPost/${blogPost._id}`}>
-            <h1 className="text-xl font-bold">{blogPost.title}</h1>
-            <p className="mt-2">{blogPost.content.slice(0, 100)}</p>
-          </Link>
-          <p className="mt-2">Author: {blogPost.author}</p>
-          <p>Published on: {blogPost.timestamp}</p>
+          {/*}{blogPost.image && (
+              <img
+                src={blogPost.image} // Assuming each blog post data has an 'image' property
+                alt="Blog Post Image"
+                className="w-full"
+              />
+            )} */}
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.title}</h1>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.content.slice(0, 100)}</p>
+          <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">Author: {blogPost.author}</p>
+          <p className='mt-2 text-gray-900 dark:text-gray-200 tracking-wide'>Published on: {blogPost.timestamp}</p>
+            </Link>
         </div>
       ))}
+      {blogPosts.length === 0 && <h1 className="text-xl text-gray-900 dark:text-gray-200 tracking-wide">No blog posts found.</h1>} 
+      </div>
 
-        <div className="flex flex-row justify-between mt-4">
+            {/* Pagination links */}
+        <div className="flex flex-row justify-center mt-4">
         {page > 1 && ( // Check if the current page is greater than 1
           <Link href={`/BlogPost/BlogPages/${page - 1}`}>
-            <p className="text-blue-500">Previous Page</p>
+            <p className="text-green-600 hover:text-green-500 tracking-wide">Previous Page</p>
           </Link>
         )}
 
         {page < totalPages && ( // Check if the current page is less than the total pages
           <Link href={`/BlogPost/BlogPages/${page + 1}`}>
-            <p className="text-blue-500">Next Page</p>
+            <p className="text-green-600 hover:text-green-500 tracking-wide">Next Page</p>
           </Link>
         )}
       </div>
-
-      {blogPosts.length === 0 && <h1 className="text-xl">No blog posts found.</h1>}
 
       {/* Generate dynamic pagination links */}
       <div className="mt-4">
@@ -68,7 +77,7 @@ export default async function BlogPosts({ page = 1 }) {
           {pageNumbers.map((pageNumber) => (
             <li key={pageNumber} className="mx-2">
               <Link href={`/BlogPost/BlogPages/${pageNumber}`}>
-                <p className={`text-blue-500 ${pageNumber === page ? 'font-bold' : ''}`} >
+                <p className={`text-green border border-green-500 rounded-t-full px-3 py-2 ${pageNumber === page ? 'font-bold bg-green-500 text-white' : ''}`} >
                   {pageNumber}
                   </p>
               </Link>
