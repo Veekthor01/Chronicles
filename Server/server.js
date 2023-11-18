@@ -21,6 +21,7 @@ const githubOauthRouter = require('./Routes/githubOauth');
 const googleOauthRouter = require('./Routes/googleOauth');
 const resetPasswordRouter = require('./Routes/resetPassword');
 const forgotPasswordRouter = require('./Routes/forgotPassword');
+const authRouter = require('./Routes/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,7 +34,11 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(helmet.noSniff());
 app.use(helmet.frameguard({ action: "sameorigin" }));
 app.use(helmet.contentSecurityPolicy({
@@ -50,8 +55,9 @@ const sessionConfig = ({
     saveUninitialized: false,
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 1 day 
-        sameSite: "none",
+        sameSite: "lax", // use "none" in production
         httpOnly: true,
+        //secure: true, // use with https in production
     },
     store: new MongoDBStore({
         uri: mongoURI,
@@ -77,6 +83,7 @@ app.use('/auth/github', githubOauthRouter);
 app.use('/auth/google', googleOauthRouter);
 app.use('/reset-password', resetPasswordRouter);
 app.use('/forgot-password', forgotPasswordRouter);
+app.use('/check-auth', authRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
