@@ -1,10 +1,12 @@
 'use client';
-import React, { useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import CreateComment from "./Create-Comment/page";
 
 export default function NewComment({ blogPostId }) {
     const [author, setAuthor] = useState("");
     const [content, setContent] = useState("");
+    const router = useRouter();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,10 +15,10 @@ export default function NewComment({ blogPostId }) {
         const response = await CreateComment(author, content, blogPostId );
         // Handle success or errors as needed
         if (response) {
-            // Blog post was successfully created
+            // comment was successfully created
             alert("Comment created successfully");
-            // Optionally, redirect to the newly created blog post's page
-           // router.push(`/blogpost/${blogId}`);
+            // Optionally, redirect to the blog post's page
+            router.push(`/BlogPost/${blogPostId}`);
         } else {
             // Handle errors or display an error message
             alert("Failed to create comment");
@@ -28,31 +30,31 @@ export default function NewComment({ blogPostId }) {
     };
     
     return (
-        <div className="max-w-md mx-auto p-4">
-  <h1 className="text-2xl font-bold mb-4">Create a New Comment</h1>
-  <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+        <div className="max-w-4xl mx-auto p-4">
+  <h1 className="text-2xl font-bold mb-4 tracking-wide">Leave a Reply</h1>
+  <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-4 mb-4 mt-4 rounded-lg shadow-xl">
     <div className="mb-4">
-      <label htmlFor="author" className="text-gray-600">Author:</label>
+      <label htmlFor="author" className="inline-block mb-1 text-sm font-medium tracking-wide text-gray-900 dark:text-gray-200">Name</label>
       <input
         type="text"
         id="author"
         value={author}
         onChange={(e) => setAuthor(e.target.value)}
-        className="w-full py-2 px-3 rounded-lg border border-gray-300 text-black focus:outline-none focus:border-indigo-500"
+        className="w-full py-3 px-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-300 text-gray-900 dark:text-gray-200 focus:outline-none focus:border-indigo-500"
         required
       />
     </div>
     <div className="mb-4">
-      <label htmlFor="content" className="text-gray-600">Content:</label>
+      <label htmlFor="content" className="inline-block mb-1 text-sm font-medium tracking-wide text-gray-900 dark:text-gray-200">Comment</label>
       <textarea
         id="content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        className="w-full py-2 px-3 rounded-lg border border-gray-300 text-black focus:outline-none focus:border-indigo-500"
+        className="w-full h-40 bg-white dark:bg-gray-700 py-3 px-3 rounded-lg border border-gray-300 text-gray-900 dark:text-gray-200 focus:outline-none focus:border-indigo-500"
         required
       />
     </div>
-    <button type="submit" className="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300">Submit</button>
+    <button type="submit" className="bg-indigo-600 tracking-wide text-sm text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300">Post Comment</button>
   </form>
 </div>
     );
