@@ -1,45 +1,36 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Navbar from '../components/navbar'
 import BlogPosts from './BlogPost/page'
-import Footer from './Footer/page'
+import Footer from '../components/Footer'
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-     <nav className="flex flex-row items-center justify-between p-3 bg-blue-950">
-      <Image
-        src="/logo.svg"
-        alt='Chronicles Logo'
-        width={100}
-        height={100}
-        className='ml-16 w-40'
-        priority
-        />   
-        <div className="flex flex-row justify-end space-x-8 bg-slate-900 p-4 mr-16">
-        <Link href="/sign-in" className='text-sm'>Sign in</Link>
-        <Link href="/sign-up" className='text-sm'>Sign up</Link>
-        </div>
-        </nav>
-
-        <div className="flex flex-row items-center justify-around py-56 max-h-56 bg-slate-700">
-        <div className="bg-yellow-700 w-1/2 max-w-xl">
-          <h1 className="text-5xl p-5">
+    <main className="min-h-screen relative">
+      <Navbar />
+        <div className="relative top-20 z-0 mb-32">
+        <div className="flex flex-row items-center justify-around py-56 max-h-56 bg-gradient-to-r from-green-500 to-indigo-500">
+        <div className=" w-1/2 max-w-xl">
+          <h1 className="text-7xl text-slate-900 dark:text-white p-5 leading-normal tracking-wide">
             Be Inspired.
           </h1>
-          <h1 className="text-5xl p-5">
+          <h1 className="text-5xl text-stone-900 dark:text-white p-5 leading-normal tracking-wide">
             Inspiring you to think differently.
           </h1>
         </div>
-        <div className="bg-indigo-950 w-2/5 max-w-xl">
-          <p className="text-5xl p-5">
+        <div className=" w-2/5 max-w-xl">
+          <p className="text-5xl p-5 text-neutral-900 dark:text-white leading-normal tracking-wide">
             Share your stories, thoughts, ideas, and expertise with the world.
           </p>
         </div>
       </div>
+      </div>
 
-        <div className="">
-          <BlogPosts />
-        </div>
+      <div className="text-center tracking-wide text-xl font-bold text-neutral-900 dark:text-white">
+        <h1>Featured Posts</h1>
+      </div>
+
+      <div className="">
+        <BlogPosts />
+      </div>
         <Footer />
     </main>
   )
