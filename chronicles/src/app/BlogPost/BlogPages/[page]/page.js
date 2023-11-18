@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Footer from '../../../../components/Footer';
 
 async function getOtherPagesOfBlogPosts(page) {
  const blogPostURL = `http://localhost:5000/blogpost?page=${page}`;
@@ -28,33 +29,34 @@ export default async function BlogPages({ params }) {
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(totalBlogPosts / 1);
-  const currentPage = parseInt(params.page);
+  const currentPage = parseInt(params.page); 
 
   return (
-    <div className="flex flex-wrap flex-row justify-center text-black bg-orange-300">
+    <div className='min-h-screen'>
+    <div className="flex flex-wrap flex-row justify-center mt-4">
       {blogPosts.map((blogPost) => (
-        <div key={blogPost._id} className="bg-white rounded-lg shadow-lg p-6 m-4 w-1/5">
+        <div key={blogPost._id} className="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 m-4 w-1/5">
           <Link href={`/BlogPost/${blogPost._id}`}>
-            <h1 className="text-xl font-bold">{blogPost.title}</h1>
-            <p className="mt-2">{blogPost.content.slice(0, 100)}</p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200">{blogPost.title}</h1>
+            <p className="mt-2 text-gray-900 dark:text-gray-200">{blogPost.content.slice(0, 100)}</p>
+          <p className="mt-2 text-gray-900 dark:text-gray-200">Author: {blogPost.author}</p>
+          <p className='mt-2 text-gray-900 dark:text-gray-200'>Published on: {blogPost.timestamp}</p>
           </Link>
-          <p className="mt-2">Author: {blogPost.author}</p>
-          <p>Published on: {blogPost.timestamp}</p>
         </div>
       ))}
+      {blogPosts.length === 0 && <h1 className="text-xl text-gray-900 dark:text-gray-200">No blog posts found.</h1>}
+        </div>
 
-      {blogPosts.length === 0 && <h1 className="text-xl">No blog posts found.</h1>}
-
-        <div className="flex flex-row justify-between mt-4">
+        <div className="flex flex-row justify-center mt-4 space-x-4">
         {currentPage > 1 && ( // Check if the current page is greater than 1
           <Link href={`/BlogPost/BlogPages/${currentPage - 1}`}>
-            <p className="text-blue-500">Previous Page</p>
+            <p className="text-green-600 hover:text-green-500">Previous Page</p>
           </Link>
         )}
 
         {currentPage < totalPages && ( // Check if the current page is less than the total pages
             <Link href={`/BlogPost/BlogPages/${currentPage + 1}`}>
-                <p className="text-blue-500">Next Page</p>
+                <p className="text-green-600 hover:text-green-500">Next Page</p>
             </Link>
             )}
     </div>
@@ -62,9 +64,9 @@ export default async function BlogPages({ params }) {
     <div className="mt-4">
         <ul className="flex justify-center">
           {[...Array(totalPages)].map((_, index) => (
-            <li key={index + 1}>
-              <Link href={`/BlogPages/${index + 1}`}>
-                <p className={`text-blue-500 ${index + 1 === currentPage ? 'font-bold' : ''}`}>
+            <li key={index + 1} className="mx-2">
+              <Link href={`/BlogPost/BlogPages/${index + 1}`}>
+                <p className={`text-green border border-green-500 rounded-t-full px-3 py-2 ${index + 1 === currentPage ? 'font-bold bg-green-500 text-white' : ''}`}>
                   {index + 1}
                 </p>
               </Link>
@@ -72,6 +74,7 @@ export default async function BlogPages({ params }) {
           ))}
         </ul>
       </div>
+      <Footer />
     </div>
   );
 }
