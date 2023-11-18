@@ -1,0 +1,14 @@
+/* Add this to your stylesheet */
+.heart-icon.liked-heart {
+  color: red;
+  cursor: pointer;
+}
+
+.heart-icon.unliked-heart {
+  color: gray;
+  cursor: pointer;
+}
+
+.heart-icon {
+  margin-right: 8px;
+}
