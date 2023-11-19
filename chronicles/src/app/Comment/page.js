@@ -1,12 +1,25 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CreateComment from "./Create-Comment/page";
+import { checkIsAuthenticated } from "../../../utils/auth";
 
 export default function NewComment({ blogPostId }) {
     const [author, setAuthor] = useState("");
     const [content, setContent] = useState("");
     const router = useRouter();
+
+    useEffect(() => {
+      const redirectToLogin = async () => {
+        const isAuthenticated = await checkIsAuthenticated();
+  
+        if (!isAuthenticated) {
+          router.push('/Login');
+        }
+      }
+
+      redirectToLogin();
+    }, [router]);
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,18 +28,22 @@ export default function NewComment({ blogPostId }) {
         const response = await CreateComment(author, content, blogPostId );
         // Handle success or errors as needed
         if (response) {
-            // comment was successfully created
-            alert("Comment created successfully");
-            // Optionally, redirect to the blog post's page
-            router.push(`/BlogPost/${blogPostId}`);
+          alert('Comment created successfully');
+          router.push(`/BlogPost/${blogPostId}`);
         } else {
-            // Handle errors or display an error message
-            alert("Failed to create comment");
+          alert('Failed to create comment');
         }
-        } catch (error) {
-        console.error("Error:", error);
-        alert("Failed to create comment");
+      } catch (error) {
+        console.error('Error:', error);
+        
+        if (error.message === '401') {
+          alert('User not authenticated. Please log in.');
+        } else if (error.message === '400') {
+          alert('Invalid request. Please provide title, author, and content.');
+        } else {
+          alert('Failed to create comment');
         }
+      }
     };
     
     return (
