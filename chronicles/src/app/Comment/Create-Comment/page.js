@@ -5,6 +5,7 @@ export default async function CreateComment (author, content, blogPostId) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include', // Send cookies along with the request
         body: JSON.stringify({
             author,
             content,
@@ -14,10 +15,15 @@ export default async function CreateComment (author, content, blogPostId) {
     // Send a POST request to the server to create a comment.
     try {
         const response = await fetch(comments, options);
-        const data = await response.json();
-        return data
-    } catch (error) {
-        console.error(error);
+    
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        } else {
+          throw new Error(response.status.toString());
+        }
+      } catch (error) {
+        console.error('Error:', error);
         throw error;
-    }
+      }
 };
