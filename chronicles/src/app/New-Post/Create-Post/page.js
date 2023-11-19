@@ -5,6 +5,7 @@ export default async function createPost (title, author, content) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include', // Send cookies along with the request
         body: JSON.stringify({
             title,
             author,
@@ -14,10 +15,16 @@ export default async function createPost (title, author, content) {
     // Send a POST request to the server to create a new blog post.
     try {
         const response = await fetch(blogPosts, options);
-        const data = await response.json();
-        return data
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
+        if (response.ok) {
+            // Status code 2xx indicates success
+            const data = await response.json();
+            return data;
+          } else {
+            // Handle non-2xx status codes
+            throw new Error(response.status.toString());
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          throw error;
+        }
+      };
