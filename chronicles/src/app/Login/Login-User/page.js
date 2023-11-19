@@ -5,6 +5,7 @@ export default async function LoginUser (email, password) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include', // Send cookies along with request
         body: JSON.stringify({
             email,
             password,
@@ -14,9 +15,28 @@ export default async function LoginUser (email, password) {
     try {
         const response = await fetch(login, options);
         const data = await response.json();
-        return data
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
+
+        if (response.ok) {
+          // Login was successful
+          console.log('Cookies:', document.cookie);
+          return data
+        } else {
+          // Login failed
+          if (response.status === 400) {
+            // Handle specific error messages from the backend
+            if (data.message === 'Incorrect email') {
+              throw new Error('Incorrect email')
+            } else if (data.message === 'Incorrect password') {
+              throw new Error('Incorrect password')
+            } else {
+              throw new Error(data.message)
+            }
+          } else {
+            throw new Error('Failed to sign in')
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        throw error
+      }
+    };
