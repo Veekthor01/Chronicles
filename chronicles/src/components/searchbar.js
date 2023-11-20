@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function SearchBar() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,31 +17,32 @@ export default function SearchBar() {
       setIsLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:5000/blogpost?search=${searchQuery}`);
+        const res = await fetch(`${backendUrl}/api/search?search=${searchQuery}`);
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await res.json();
+        console.log('API Response:', data);
         setIsLoading(false);
   
-        if (data.length > 0) {
-          // Find the blog post that matches the search query
-          const matchedBlogPost = data.find((blogPost) =>
-            blogPost.title.includes(searchQuery) || blogPost.author.includes(searchQuery)
-          );
+        const blogPosts = data.blogPosts; // Access the array of blog posts
+
+        if (blogPosts.length > 0) {
+          const matchedBlogPost = blogPosts.find((blogPost) =>
+          blogPost.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          blogPost.author.toLowerCase().includes(searchQuery.toLowerCase())
+        );
   
           if (matchedBlogPost) {
             router.push(`/BlogPost/${matchedBlogPost._id}`);
           } else {
-            // Handle the case when no matching results are found
-            // You can display a message or take other actions here
+            setError('No matching results found');
           }
         } else {
-          // Handle the case when no results are found
-          // You can display a message or take other actions here
+          setError('No matching results found');
         }
       } catch (error) {
-        setError(error);
+        setError(error.message); // Set the error message, not the entire error object
       }
     }
   };  
@@ -63,7 +66,7 @@ export default function SearchBar() {
     </button>
     </div>
       {isLoading && <div>Loading...</div>}
-      {error && <div>Error: {error.message}</div>}
+      {error && <div>{error}</div>}
     </div>
   );
 }
