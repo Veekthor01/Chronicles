@@ -1,8 +1,12 @@
-// utils/auth.js
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const checkIsAuthenticated = async () => {
+    const checkAuth = `${backendUrl}/check-auth`;
     try {
-      const response = await fetch('http://localhost:5000/check-auth', {
+      const response = await fetch(checkAuth, {
+        next: {
+          revalidate: 0,
+        },
         method: 'GET',
         credentials: 'include', // Send cookies along with the request
         headers: {
