@@ -14,8 +14,9 @@ export default async function DeleteAccount() {
       const response = await fetch(deleteUser, options);
       if (response.ok) {
         // Status code 2xx indicates success
-        const data = await response.json();
-        return data;
+        await response.json();
+        // Returning the actual data that we want to render instead of the object itself
+        return { message: 'User deleted successfully' };
       } else {
         // Handle non-2xx status codes
         throw new Error(response.status.toString());

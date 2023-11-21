@@ -11,9 +11,9 @@ export default async function Logout () {
             },
         });
         if (response.ok) {
-            const data = await response.json();
-            console.log(data)
-            return data
+             await response.json();
+             // Returning the actual data that we want to render instead of the object itself
+            return { message: 'Logout successful' };
         } else {    
             throw new Error('Failed to logout')
         } 
