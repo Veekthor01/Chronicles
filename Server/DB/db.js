@@ -20,4 +20,18 @@ async function connectDB () {
     };
 };
 
-module.exports = connectDB;
+async function closeDBConnection() {
+    try {
+        await client.close();
+       console.log("Closed MongoDB connection");
+    }
+    catch (err) {
+      console.error("MongoDB close connection error", err);
+        throw err;
+    }
+}
+
+module.exports = {
+    connectDB,
+    closeDBConnection
+};

@@ -1,7 +1,10 @@
 import Link from 'next/link';
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 async function getBlogPosts(page = 1, limit = 1) {
-  const blogPostURL = `http://localhost:5000/blogpost?page=${page}&limit=${limit}`;
+  //await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 3 second
+  const blogPostURL = `${backendUrl}/blogpost?page=${page}&limit=${limit}`;
   try {
     const response = await fetch(blogPostURL, {
       next: {
@@ -39,13 +42,6 @@ export default async function BlogPosts({ page = 1 }) {
           className="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 m-4 w-1/5"
         >
           <Link href={`/BlogPost/${blogPost._id}`}>
-          {/*}{blogPost.image && (
-              <img
-                src={blogPost.image} // Assuming each blog post data has an 'image' property
-                alt="Blog Post Image"
-                className="w-full"
-              />
-            )} */}
             <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.title}</h1>
             <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.content.slice(0, 100)}</p>
           <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">Author: {blogPost.author}</p>

@@ -1,11 +1,12 @@
 const express = require('express');
 const crypto = require('crypto');
-const connectDB = require('../DB/db');
+const { connectDB } = require('../DB/db');
 const transporter = require('../Email/email');
 require("dotenv").config();
 
 const router = express.Router();
 
+const FrontendURL = process.env.FRONTEND_URL;
 const myEmail = process.env.EMAIL_HOST_USER;
 
 // Function to generate a unique token to be sent by email to the user for password reset
@@ -42,7 +43,7 @@ router.post('/', async (req, res) => {
       // Store the password reset token with its expiration time in your database
       await passwordResetTokensCollection.insertOne({ token, userId: user._id, expirationTime });
       // Create a password reset link
-      const resetLink = `http://localhost:3000/ResetPassword?token=${token}`;
+      const resetLink = `${FrontendURL}/ResetPassword?token=${token}`;
       // Send an email with the reset link
       const mailOptions = {
         from: myEmail,

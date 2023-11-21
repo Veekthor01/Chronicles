@@ -2,8 +2,45 @@ import NewComment from "@/app/Comment/page"
 import LikePost from "../../../components/likes"
 import Footer from "../../../components/Footer"
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; // add NEXT_PUBLIC_ to access env variables on client side
+
+// Function to generate metadata for each blog post
+export async function generateMetadata({ params, searchParams }, parent) {
+    // Read route params
+    const blogPostId = params.blogPostId;
+    // Fetch blog post data
+    const blogPost = await getBlogPost(blogPostId);
+    // optionally access and extend (rather than replace) parent metadata
+    const previousImages = (await parent).openGraph?.images || []
+    // Generate metadata
+    return {
+      title: blogPost.title,
+      description: blogPost.content.slice(0, 100),
+      url: `/Blogpost/${blogPostId}`,
+      openGraph: {
+        title: blogPost.title,
+        description: blogPost.content.slice(0, 100),
+        url: `/Blogpost/${blogPostId}`,
+        type: 'article',
+        publishedTime: blogPost.timestamp,
+        author: blogPost.author,
+        images: [
+          {
+            url: '/logo.svg',
+            width: 800,
+            background: 'black',
+            height: 600,
+            alt: 'Chronicles Image'
+          },
+          ...previousImages,
+        ],
+      },   
+    };
+  }
+  
+// Function to fetch blog post data from server
 async function getBlogPost (blogPostId) {
-    const blogPost = `http://localhost:5000/blogpost/${blogPostId}`
+    const blogPost = `${backendUrl}/blogpost/${blogPostId}`;
     try {
         const response = await fetch(blogPost, {
             next: {
@@ -18,6 +55,7 @@ async function getBlogPost (blogPostId) {
     }
 };
 
+// Function to generate static paths for each blog post
 export default async function BlogPage ({ params }) {
     const blogPost = await getBlogPost(params.blogPostId);
 
@@ -59,4 +97,4 @@ export default async function BlogPage ({ params }) {
             <Footer />
         </main>
     )
-}
+};

@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const connectDB = require('./db');
+const { connectDB } = require('./db');
 const { format } = require('date-fns');
 
 // Insert a new comment

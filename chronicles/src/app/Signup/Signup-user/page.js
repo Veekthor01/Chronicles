@@ -1,10 +1,13 @@
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default async function SignupUser (email, password) {
-    const signup = 'http://localhost:5000/signup';
+    const signup = `${backendUrl}/signup`;
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include', // Send cookies along with request
         body: JSON.stringify({
             email,
             password,
@@ -14,9 +17,29 @@ export default async function SignupUser (email, password) {
     try {
         const response = await fetch(signup, options);
         const data = await response.json();
-        return data
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
+    
+        if (response.ok) {
+          // Signup was successful
+          return data
+        } else {
+          // Signup failed
+          if (response.status === 400) {
+            // Handle specific error messages from the backend
+            if (data.message === 'Invalid email format') {
+              throw new Error('Invalid email format')
+            } else if (data.message === 'Email already taken') {
+              throw new Error('Email already taken')
+            } else if (data.message === 'Password must be at least 4 characters') {
+              throw new Error('Password must be at least 4 characters')
+            } else {
+              throw new Error(data.message)
+            }
+          } else {
+            throw new Error('Failed to sign up')
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        throw error
+      }
+    };

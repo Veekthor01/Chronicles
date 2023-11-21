@@ -1,5 +1,7 @@
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default async function createPost (title, author, content) {
-    const blogPosts = 'http://localhost:5000/blogpost';
+    const blogPosts = `${backendUrl}/blogpost`;
     const options = {
         method: 'POST',
         headers: {

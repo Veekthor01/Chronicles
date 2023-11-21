@@ -6,7 +6,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const connectMongoDBSession = require('connect-mongodb-session');
-const connectDB = require('./DB/db');
+const { connectDB, closeDBConnection } = require('./DB/db');
 require('dotenv').config();
 require('./Passport-Config/passport');
 require('./Passport-Config/passportOauth');
@@ -16,6 +16,7 @@ const logoutRouter = require('./Routes/logout');
 const changePasswordRouter = require('./Routes/changePassword');
 const deleteUserRouter = require('./Routes/deleteUser');
 const blogpostRouter = require('./Controllers/blogpostRoute');
+const searchBlogPostRouter = require('./Controllers/blogpostRoute');
 const commentRouter = require('./Controllers/commentRoute');
 const githubOauthRouter = require('./Routes/githubOauth');
 const googleOauthRouter = require('./Routes/googleOauth');
@@ -25,6 +26,7 @@ const authRouter = require('./Routes/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const FrontendURL = process.env.FRONTEND_URL;
 const secretKey = process.env.SECRET_KEY;
 const mongoURI = process.env.MONGODB_URI;
 const MongoDBStore = connectMongoDBSession(session);
@@ -35,7 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: FrontendURL,
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -84,6 +86,7 @@ app.use('/auth/google', googleOauthRouter);
 app.use('/reset-password', resetPasswordRouter);
 app.use('/forgot-password', forgotPasswordRouter);
 app.use('/check-auth', authRouter);
+app.use('/api', searchBlogPostRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -94,3 +97,14 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}.`);
 })
+
+// Close the database connection when the Node process ends
+process.on('SIGTERM', () => {
+    console.info('SIGTERM signal received.');
+    console.log('Closing HTTP server.');
+    server.close(() => {
+        console.log('HTTP server closed.');
+        closeDBConnection();
+        process.exit(0);
+    });
+});

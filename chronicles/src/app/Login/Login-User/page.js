@@ -1,5 +1,7 @@
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default async function LoginUser (email, password) {
-    const login = 'http://localhost:5000/login';
+    const login = `${backendUrl}/login`;
     const options = {
         method: 'POST',
         headers: {

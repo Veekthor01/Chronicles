@@ -1,7 +1,10 @@
 const express = require('express');
 const passport = require('passport');
+require("dotenv").config();
 
 const router = express.Router();
+
+const FrontendURL = process.env.FRONTEND_URL;
 
 // Google authentication route
 router.get('/',
@@ -9,9 +12,9 @@ router.get('/',
 
 // Google authentication callback
 router.get('/callback', 
-passport.authenticate('google', { failureRedirect: 'http://localhost:3000/Signup' }),
+passport.authenticate('google', { failureRedirect: `${FrontendURL}/Signup` }),
  function (req, res) {
-  res.redirect('http://localhost:3000/User');
+  res.redirect(`${FrontendURL}/User`);
 });
 
 module.exports = router;

@@ -1,5 +1,7 @@
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default async function PasswordForgot(email) {
-    const forgotPassword = 'http://localhost:5000/forgot-password'; // Replace with the actual endpoint
+    const forgotPassword = `${backendUrl}/forgot-password`;
     const options = {
         method: 'POST',
         headers: {

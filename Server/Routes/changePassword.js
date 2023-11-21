@@ -15,7 +15,7 @@ router.put('/', isAuthenticated, async (req, res) => {
         if (user) {
         const isValidPassword = await bcrypt.compare(currentPassword, user.password);
         if (!isValidPassword) {
-            return res.status(400).json({ message: 'Current password is incorrect.' });
+            return res.status(400).json({ message: 'Current password is incorrect' });
         }}
         // Validate the new password
         if (!validator.isLength(newPassword, { min: 4 })) {

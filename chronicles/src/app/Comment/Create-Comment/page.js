@@ -1,5 +1,7 @@
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default async function CreateComment (author, content, blogPostId) {
-    const comments = 'http://localhost:5000/comment';
+    const comments = `${backendUrl}/comment`;
     const options = {
         method: 'POST',
         headers: {

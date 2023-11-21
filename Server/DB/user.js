@@ -1,4 +1,4 @@
-const connectDB = require('./db');
+const { connectDB } = require('./db');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 require('../Passport-Config/passport');

@@ -1,28 +1,24 @@
-import { useRouter } from 'next/navigation';
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-async function Logout () {
-    const logout = 'http://localhost:5000/logout'
+export default async function Logout () {
+    const logout = `${backendUrl}/logout`;
     try {
         const response = await fetch(logout, {
-            next: {
-                revalidate: 0
-            }
-        })
-        const data = await response.json()
-        return data
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data)
+            return data
+        } else {    
+            throw new Error('Failed to logout')
+        } 
     } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-export default async function LogoutUser () {
-    const logout = await Logout();
-    const router = useRouter();
-    if (logout.status === 'success') {
-        alert('User logged out successfully.');
-        router.push('/'); // Redirect to the home page or any other page as needed
-    } else {
-        alert('Failed to log out.');
-    }
+        console.error('Error:', error);
+        throw error
+    }                  
 };

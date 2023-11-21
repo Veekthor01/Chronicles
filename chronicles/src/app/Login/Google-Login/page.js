@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function GoogleLogin() {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleGoogleLogin = async () => {
         setIsLoading(true);
-        const googleAuthURL = 'http://localhost:5000/auth/google'; // Your backend's Google authentication route
+        const googleAuthURL = `${backendUrl}/auth/google`;
         try {
             // Redirect the user to Google's authorization page
             window.location.href = googleAuthURL;

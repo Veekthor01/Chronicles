@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function GitHubLogin() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGitHubLogin = async () => {
     setIsLoading(true);
-    const githubAuthURL = 'http://localhost:5000/auth/github'; // Your backend's GitHub authentication route
+    const githubAuthURL = `${backendUrl}/auth/github`;
     try {
       // Redirect the user to GitHub's authorization page
       window.location.href = githubAuthURL;

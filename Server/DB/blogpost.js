@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const connectDB = require('./db');
+const { connectDB } = require('./db');
 const { format } = require('date-fns');
 
 
@@ -29,6 +29,18 @@ async function getBlogPosts(page = 1, limit = 1) {
         console.error('Error getting posts:', error);
     }
 };
+
+// Get all blog posts without pagination for search query
+async function getAllBlogPosts() {
+    const db = await connectDB();
+    const blogCollection = db.collection('blogpost');
+    try {
+        const posts = await blogCollection.find().toArray();
+        return posts;
+    } catch (error) {
+        console.error('Error getting posts:', error);
+    }
+}
 
 // Calculate the total number of blog posts(used for pagination)
 async function getBlogPostCount() {
@@ -86,6 +98,7 @@ module.exports = {
     insertBlogPost,
     getBlogPosts,
     getBlogPostById,
+    getAllBlogPosts,
     getBlogPostCount,
     updateBlogPost,
     deleteBlogPost,

@@ -1,8 +1,41 @@
 import Link from 'next/link';
 import Footer from '../../../../components/Footer';
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+export async function generateMetadata({ params, searchParams }, parent) {
+  // Read route params
+  const page = params.page;
+  // Fetch blog post data
+ await getOtherPagesOfBlogPosts(page)
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+  // Generate metadata
+  return {
+    title: 'Chronicles Blog',
+    description: 'Exploring the world, one story at a time.',
+    url: `/BlogPost/BlogPages/${page}`,
+    openGraph: {
+      title: 'Chronicles Blog',
+      description: 'Exploring the world, one story at a time.',
+      url: `/BlogPost/BlogPages/${page}`,
+      type: 'article',
+      images: [
+        {
+          url: '/logo.svg',
+          width: 800,
+          background: 'black',
+          height: 600,
+          alt: 'Chronicles Image'
+        },
+        ...previousImages,
+      ],
+    },
+  };
+}
+
 async function getOtherPagesOfBlogPosts(page) {
- const blogPostURL = `http://localhost:5000/blogpost?page=${page}`;
+ const blogPostURL = `${backendUrl}/blogpost?page=${page}`;
   try {
     const response = await fetch(blogPostURL, {
       next: {

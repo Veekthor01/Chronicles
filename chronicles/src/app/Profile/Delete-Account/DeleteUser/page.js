@@ -1,7 +1,10 @@
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default async function DeleteAccount() {
-    const deleteUser = 'http://localhost:5000/delete-user';
+    const deleteUser = `${backendUrl}/delete-user`;
     const options = {
       method: 'DELETE',
+      credentials: 'include', // Send cookies along with the request
       headers: {
         'Content-Type': 'application/json',
       },
@@ -9,11 +12,17 @@ export default async function DeleteAccount() {
     // Send a DELETE request to the server to delete the account.
     try {
       const response = await fetch(deleteUser, options);
-      const data = await response.json();
-      return data;
+      if (response.ok) {
+        // Status code 2xx indicates success
+        const data = await response.json();
+        return data;
+      } else {
+        // Handle non-2xx status codes
+        throw new Error(response.status.toString());
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error:', error);
       throw error;
     }
-  }
+  };
   

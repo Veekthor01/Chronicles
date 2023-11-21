@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { insertBlogPost, getBlogPosts, getBlogPostById, getBlogPostCount, updateBlogPost, deleteBlogPost, } = require('../DB/blogpost');
+const { insertBlogPost, getBlogPosts, getBlogPostById, getBlogPostCount, updateBlogPost, deleteBlogPost,
+getAllBlogPosts, getBlogPostsBySearchQuery } = require('../DB/blogpost');
 const { getCommentsByBlogPostId } = require('../DB/comment');
 const isAuthenticated = require('../Passport-Config/Authenticated');
 
@@ -16,6 +17,16 @@ router.get('/', async (req, res) => {
       res.status(500).json({ message: 'Failed to retrieve blog posts', error: error.message });
     }
   });
+
+  // Get all blog posts without pagination for search query
+router.get('/search', async (req, res) => {
+  try {
+    const blogPosts = await getAllBlogPosts();
+    res.json({ blogPosts });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve blog posts', error: error.message });
+  }
+});
 
     // Get a specific blog post by ID with comments
   router.get('/:id', async (req, res) => {

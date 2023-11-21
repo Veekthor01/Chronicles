@@ -11,13 +11,16 @@ export default function ThemeToggle () {
       }, [])
     
       if (!mounted) {
-        return null
+        return <p>Loading Theme...</p>
       }
+
       const themes = ['system', 'light', 'dark'];
 
       return (
         <div className="flex justify-end">
+          <label htmlFor="theme-select"></label>
           <select
+            id="theme-select"
             className="p-2 border border-gray-300 rounded-md bg-gray-800 text-gray-400 focus:outline-none focus:border-indigo-500"
             onChange={(e) => setTheme(e.target.value)}
             defaultValue={theme}
