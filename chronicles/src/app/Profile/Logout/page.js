@@ -10,10 +10,9 @@ export default async function Logout () {
               'Content-Type': 'application/json',
             },
         });
+        const data = await response.json();
         if (response.ok) {
-             await response.json();
-             // Returning the actual data that we want to render instead of the object itself
-            return { message: 'Logout successful' };
+            return data
         } else {    
             throw new Error('Failed to logout')
         } 

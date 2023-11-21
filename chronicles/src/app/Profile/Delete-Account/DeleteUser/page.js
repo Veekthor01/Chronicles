@@ -12,11 +12,10 @@ export default async function DeleteAccount() {
     // Send a DELETE request to the server to delete the account.
     try {
       const response = await fetch(deleteUser, options);
+      const data = await response.json();
       if (response.ok) {
         // Status code 2xx indicates success
-        await response.json();
-        // Returning the actual data that we want to render instead of the object itself
-        return { message: 'User deleted successfully' };
+        return data;
       } else {
         // Handle non-2xx status codes
         throw new Error(response.status.toString());
