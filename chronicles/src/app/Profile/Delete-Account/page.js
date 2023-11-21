@@ -37,9 +37,9 @@ export default function DeleteAccountPage() {
         } catch (error) {
           console.error('Error:', error);
       
-          if (error.message === '401') {
+          if (error.message === 'Unauthorized') {
             alert('User not authenticated. Please log in.');
-          } else if (error.message === '404') {
+          } else if (error.message === 'User not found') {
             alert('User not found. Please refresh the page.');
           } else {
             alert('Failed to delete account. An unexpected error occurred.');

@@ -12,10 +12,10 @@ export default async function Logout () {
         });
         const data = await response.json();
         if (response.ok) {
-            return data
-        } else {    
-            throw new Error('Failed to logout')
-        } 
+            return data.message;
+        } else {
+            throw new Error(response.status.toString());
+        }
     } catch (error) {
         console.error('Error:', error);
         throw error

@@ -17,10 +17,21 @@ export default async function DeleteAccount() {
         // Status code 2xx indicates success
         return data;
       } else {
-        // Handle non-2xx status codes
-        throw new Error(response.status.toString());
+        if (response.status === 401) {
+          // Unauthorized - user not authenticated
+          throw new Error('Unauthorized');
+        } else if (response.status === 404) {
+          // Handle specific error messages from the backend
+          if (data.message === 'User not found') {
+            throw new Error('User not found');
+          } else {
+          throw new Error(data.message);
+        }
+      } else {
+        throw new Error('Failed to delete user')
       }
-    } catch (error) {
+    }
+   } catch (error) {
       console.error('Error:', error);
       throw error;
     }
