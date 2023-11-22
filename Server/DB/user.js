@@ -78,10 +78,6 @@ async function changePassword(id, newPassword) {
       if (!user) {
         throw new Error('User not found');
       }
-     // const isValidPassword = await bcrypt.compare(currentPassword, user.password);
-     // if (!isValidPassword) {
-      //  throw new Error('Current password is incorrect');
-      //}
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       // Update the user's password in the database
       const result = await usersCollection.updateOne(
