@@ -19,7 +19,7 @@ export default async function DeleteAccount() {
       } else {
         if (response.status === 401) {
           // Unauthorized - user not authenticated
-          throw new Error('Unauthorized');
+          throw new Error('Not Authorized');
         } else if (response.status === 404) {
           // Handle specific error messages from the backend
           if (data.message === 'User not found') {

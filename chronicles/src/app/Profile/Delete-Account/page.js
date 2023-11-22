@@ -31,6 +31,7 @@ export default function DeleteAccountPage() {
           const response = await DeleteAccount();
           if (response) {
             await Logout();
+            router.push('/');
             alert('Account deleted successfully');
           } else {
             alert('Failed to delete account. User not found or an error occurred.');
@@ -38,7 +39,7 @@ export default function DeleteAccountPage() {
         } catch (error) {
           console.error('Error:', error);
       
-          if (error.message === 'Unauthorized') {
+          if (error.message === 'Not Authorized') {
             alert('User not authenticated. Please log in.');
           } else if (error.message === 'User not found') {
             alert('User not found. Please refresh the page.');
