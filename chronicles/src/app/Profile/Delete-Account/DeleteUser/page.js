@@ -1,14 +1,14 @@
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default async function DeleteAccount() {
-    const deleteUser = `${backendUrl}/delete-user`;
+   const deleteUser = `${backendUrl}/delete-user`;
     const options = {
       method: 'DELETE',
       credentials: 'include', // Send cookies along with the request
       headers: {
         'Content-Type': 'application/json',
       },
-    };
+    }; 
     // Send a DELETE request to the server to delete the account.
     try {
       const response = await fetch(deleteUser, options);
@@ -31,9 +31,8 @@ export default async function DeleteAccount() {
         throw new Error('Failed to delete user')
       }
     }
-   } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
-  
+}  catch (error) {
+        console.error('Error:', error);
+        throw error;
+        }
+    };
