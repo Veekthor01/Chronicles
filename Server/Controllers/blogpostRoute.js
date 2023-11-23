@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { insertBlogPost, getBlogPosts, getBlogPostById, getBlogPostCount, updateBlogPost, deleteBlogPost,
-getAllBlogPosts, getBlogPostsBySearchQuery } = require('../DB/blogpost');
+getAllBlogPosts } = require('../DB/blogpost');
 const { getCommentsByBlogPostId } = require('../DB/comment');
 const isAuthenticated = require('../Passport-Config/Authenticated');
 
