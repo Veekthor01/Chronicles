@@ -20,7 +20,7 @@ export default function UserPage() {
     };
 
     redirectToLogin();
-  }, [router]); //
+  }, [router]); 
 
     return (
       <main className='min-h-screen'>
@@ -33,16 +33,7 @@ export default function UserPage() {
     );
 }
   
-  /*return (
-    <main className='min-h-screen'>
-      <AuthNavbar />
-        <div className="">
-          <BlogPosts />
-        </div>
-        <Footer />
-    </main>
-  ) 
-};*/
+
 /* "use client"
 import { redirect } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -51,9 +42,9 @@ import BlogPosts from '../BlogPost/page';
 import Footer from '../../components/Footer';
 import { checkIsAuthenticated } from '../../../utils/auth';
 
-// Define the UserPage component
+ Define the UserPage component
 export default function UserPage() {
-  // State to track authentication status
+  /State to track authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
@@ -63,14 +54,14 @@ export default function UserPage() {
         setIsAuthenticated(authenticated);
       } catch (error) {
         console.error('Error checking authentication:', error);
-        // Handle error if needed
+         Handle error if needed
       }
     };
 
     checkAuthentication();
   }, []);
 
-  // Render the component content if authentication status is determined
+  Render the component content if authentication status is determined
   if (isAuthenticated !== null) {
     if (isAuthenticated) {
       return (
@@ -87,6 +78,6 @@ export default function UserPage() {
     }
   }
 
-  // Render a loading indicator while authentication status is being checked
+   Render a loading indicator while authentication status is being checked
   return <div>Loading...</div>;
 } */

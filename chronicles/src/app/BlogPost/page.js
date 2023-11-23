@@ -10,6 +10,10 @@ async function getBlogPosts(page = 1, limit = 1) {
       next: {
         revalidate: 0,
       },
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const data = await response.json();
     return data;
@@ -23,12 +27,9 @@ export default async function BlogPosts({ page = 1 }) {
     const blogPostsResponse = await getBlogPosts(page, 1);
     const blogPosts = blogPostsResponse.blogPosts; // Access blogPosts from the response
     const totalBlogPosts = blogPostsResponse.count;
-    //console.log('Total Blog Posts:', totalBlogPosts);
   
     // Calculate the total number of pages
     const totalPages = Math.ceil(totalBlogPosts / 1);
-    //console.log('Page:', page);
-    //console.log('Total Pages:', totalPages);
 
     // Generate an array of page numbers for pagination
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -43,7 +44,7 @@ export default async function BlogPosts({ page = 1 }) {
         >
           <Link href={`/BlogPost/${blogPost._id}`}>
             <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.title}</h1>
-            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.content.slice(0, 100)}</p>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{typeof blogPost.content === 'string' ? blogPost.content.slice(0, 100) : blogPost.content}</p>
           <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">Author: {blogPost.author}</p>
           <p className='mt-2 text-gray-900 dark:text-gray-200 tracking-wide'>Published on: {blogPost.timestamp}</p>
             </Link>
@@ -85,11 +86,6 @@ export default async function BlogPosts({ page = 1 }) {
   );
 }
 
-/*Create an array of page numbers to iterate over in the UI
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    } */
 /* import Link from 'next/link';
 
 async function getBlogPosts () {
