@@ -6,6 +6,9 @@ export default async function Logout () {
         const response = await fetch(logout, {
             method: 'POST',
             credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
         });
         const data = await response.json();
         if (response.ok) {

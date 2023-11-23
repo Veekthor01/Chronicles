@@ -11,6 +11,9 @@ async function getBlogPosts(page = 1, limit = 1) {
         revalidate: 0,
       },
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const data = await response.json();
     return data;
