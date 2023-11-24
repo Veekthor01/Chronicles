@@ -1,45 +1,34 @@
+'use client';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import getBlogPosts from './getBlogPost/page';
 
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+export default function BlogPosts({ page = 1 }) {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageNumbers, setPageNumbers] = useState([]);
+  const [totalBlogPosts, setTotalBlogPosts] = useState(0);
 
-async function getBlogPosts(page = 1, limit = 1) {
-  //await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 3 second
-  if (typeof window === 'undefined') {
-    // Check if we are on the server
-    // If so, return the absolute URL of the backend
-    return { blogPosts: [], count: 0 };
-  }
-  const blogPostURL = `${backendUrl}/blogpost?page=${page}&limit=${limit}`;
-  try {
-    const response = await fetch(blogPostURL, {
-      next: {
-        revalidate: 0,
-      },
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log('Response Status:', response.status);
-    const data = await response.json();
-    console.log('Parsed Data:', data);
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const blogPostsResponse = await getBlogPosts(page, 1);
+        setBlogPosts(blogPostsResponse.blogPosts);
+        setTotalBlogPosts(blogPostsResponse.count);
+        // Calculate the total number of pages
+        const totalPages = Math.ceil(blogPostsResponse.count / 1);
+        setTotalPages(totalPages);
+        // Generate an array of page numbers for pagination
+        const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+        setPageNumbers(pageNumbers);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      }
+    };
 
-export default async function BlogPosts({ page = 1 }) {
-    const blogPostsResponse = await getBlogPosts(page, 1);
-    const blogPosts = blogPostsResponse.blogPosts; // Access blogPosts from the response
-    const totalBlogPosts = blogPostsResponse.count;
-  
-    // Calculate the total number of pages
-    const totalPages = Math.ceil(totalBlogPosts / 1);
+    fetchData();
+  }, [page]); // Re-run the effect when the page changes
 
-    // Generate an array of page numbers for pagination
-  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
     <div>
