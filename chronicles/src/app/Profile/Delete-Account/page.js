@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import DeleteAccount from './DeleteUser/page';
 import { checkIsAuthenticated } from '../../../../utils/auth';
-//import Logout from '../Logout/page';
+import Logout from '../Logout/page';
 
 export default function DeleteAccountPage() {
     const router = useRouter();
@@ -27,10 +27,16 @@ export default function DeleteAccountPage() {
   
       if (confirmed) {
         try {
-          await DeleteAccount();
+          // Get the user ID from the session
+          const response = await DeleteAccount();
+          if (response) {
             alert('Account deleted successfully');
             router.push('/');
-          } catch (error) {
+            await Logout();
+          } else {
+            alert('Failed to delete account. User not found or an error occurred.');
+          }
+        } catch (error) {
           console.error('Error:', error);
       
           if (error.message === 'Not Authorized') {
