@@ -60,6 +60,7 @@ const sessionConfig = ({
         httpOnly: true, 
         sameSite: "none", // use "none" in production
         secure: true, // use with https in production
+        domain: '.vercel.app',// you can leave it empty in development
     },
     store: new MongoDBStore({
         uri: mongoURI,
