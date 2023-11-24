@@ -2,11 +2,7 @@ const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default async function getBlogPosts(page = 1, limit = 1) {
   //await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 3 second
-  if (typeof window === 'undefined') {
-    // Check if we are on the server
-    // If so, return the absolute URL of the backend
-    return { blogPosts: [], count: 0 };
-  }
+  
   const blogPostURL = `${backendUrl}/blogpost?page=${page}&limit=${limit}`;
   try {
     const response = await fetch(blogPostURL, {
