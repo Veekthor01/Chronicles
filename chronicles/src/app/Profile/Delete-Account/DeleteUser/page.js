@@ -6,7 +6,7 @@ export default async function DeleteAccount() {
       method: 'DELETE',
       credentials: 'include', // Send cookies along with the request
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', 
       },
     }; 
     // Send a DELETE request to the server to delete the account.

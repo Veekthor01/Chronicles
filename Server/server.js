@@ -57,9 +57,9 @@ const sessionConfig = ({
     saveUninitialized: false,
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 1 day 
-        sameSite: "none", // use "none" in production
+        sameSite: "lax", // use "none" in production
         httpOnly: true,
-        secure: true, // use with https in production
+        //secure: true, // use with https in production
     },
     store: new MongoDBStore({
         uri: mongoURI,

@@ -11,9 +11,9 @@ async function getBlogPosts(page = 1, limit = 1) {
         revalidate: 0,
       },
     });
-    console.log('Response Status:', response.status);
+    //console.log('Response Status:', response.status);
     const data = await response.json();
-     console.log('Parsed Data:', data);
+     //console.log('Parsed Data:', data);
     return data;
   } catch (error) {
     console.error(error);
