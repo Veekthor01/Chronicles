@@ -30,7 +30,7 @@ export default function DeleteAccountPage() {
           // Get the user ID from the session
           const response = await DeleteAccount();
           if (response) {
-            await Logout();
+            //await Logout();
             router.push('/');
             alert('Account deleted successfully');
           } else {
