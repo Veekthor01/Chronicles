@@ -15,7 +15,7 @@ export default async function DeleteAccount() {
       const data = await response.json();
       if (response.ok) {
         // Status code 2xx indicates success
-        return data
+        return data.message;
       } else {
         if (response.status === 401) {
           // Unauthorized - user not authenticated

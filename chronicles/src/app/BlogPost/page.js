@@ -13,7 +13,6 @@ export default function BlogPosts({ page = 1 }) {
     const fetchData = async () => {
       try {
         const blogPostsResponse = await getBlogPosts(page, 1);
-        console.log('Blog Posts Response:', blogPostsResponse);
         setBlogPosts(blogPostsResponse.blogPosts);
         setTotalBlogPosts(blogPostsResponse.count);
         // Calculate the total number of pages
