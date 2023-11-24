@@ -4,6 +4,11 @@ const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 async function getBlogPosts(page = 1, limit = 1) {
   //await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 3 second
+  if (typeof window === 'undefined') {
+    // Check if we are on the server
+    // If so, return the absolute URL of the backend
+    return { blogPosts: [], count: 0 };
+  }
   const blogPostURL = `${backendUrl}/blogpost?page=${page}&limit=${limit}`;
   try {
     const response = await fetch(blogPostURL, {
@@ -15,7 +20,9 @@ async function getBlogPosts(page = 1, limit = 1) {
         'Content-Type': 'application/json',
       },
     });
+    console.log('Response Status:', response.status);
     const data = await response.json();
+    console.log('Parsed Data:', data);
     return data;
   } catch (error) {
     console.error(error);
@@ -44,7 +51,7 @@ export default async function BlogPosts({ page = 1 }) {
         >
           <Link href={`/BlogPost/${blogPost._id}`}>
             <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.title}</h1>
-            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{typeof blogPost.content === 'string' ? blogPost.content.slice(0, 100) : blogPost.content}</p>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.content.slice(0, 100)}</p>
           <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">Author: {blogPost.author}</p>
           <p className='mt-2 text-gray-900 dark:text-gray-200 tracking-wide'>Published on: {blogPost.timestamp}</p>
             </Link>
