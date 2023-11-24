@@ -11,9 +11,9 @@ async function getBlogPosts(page = 1, limit = 1) {
         revalidate: 0,
       },
     });
-    const text = await response.text(); // Get the response as text
-    console.log('Response Text:', text);
-    const data = JSON.parse(text); // Parse the text as JSON
+    console.log('Response Status:', response.status);
+    const data = await response.json();
+     console.log('Parsed Data:', data);
     return data;
   } catch (error) {
     console.error(error);
