@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react';
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
