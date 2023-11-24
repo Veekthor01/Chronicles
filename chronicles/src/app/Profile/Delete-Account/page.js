@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import DeleteAccount from './DeleteUser/page';
 import { checkIsAuthenticated } from '../../../../utils/auth';
-import Logout from '../Logout/page';
+//import Logout from '../Logout/page';
 
 export default function DeleteAccountPage() {
     const router = useRouter();
