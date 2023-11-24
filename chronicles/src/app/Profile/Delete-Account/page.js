@@ -27,16 +27,10 @@ export default function DeleteAccountPage() {
   
       if (confirmed) {
         try {
-          // Get the user ID from the session
-          const response = await DeleteAccount();
-          if (response) {
-            //await Logout();
-            router.push('/');
+          await DeleteAccount();
             alert('Account deleted successfully');
-          } else {
-            alert('Failed to delete account. User not found or an error occurred.');
-          }
-        } catch (error) {
+            router.push('/');
+          } catch (error) {
           console.error('Error:', error);
       
           if (error.message === 'Not Authorized') {
