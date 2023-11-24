@@ -1,4 +1,4 @@
-'use client'
+/*'use client'
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import DeleteAccount from './DeleteUser/page';
@@ -68,4 +68,4 @@ export default function DeleteAccountPage() {
       </div>
       </div>
     );
-  }
+  } */

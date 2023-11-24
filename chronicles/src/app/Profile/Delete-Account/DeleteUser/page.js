@@ -1,4 +1,4 @@
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+/*const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default async function DeleteAccount() {
    const deleteUser = `${backendUrl}/delete-user`;
@@ -35,4 +35,4 @@ export default async function DeleteAccount() {
         console.error('Error:', error);
         throw error;
         }
-    };
+    }; */

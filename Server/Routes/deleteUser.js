@@ -1,9 +1,9 @@
-const express = require('express');
+/*const express = require('express');
 const router = express.Router();
 const { deleteUser } = require('../DB/user');
 const isAuthenticated = require('../Passport-Config/Authenticated');
 
-// DELETE user by ID
+DELETE user by ID
 router.delete('/', isAuthenticated, async (req, res) => {
   const userId = req.user._id; // Get the user ID from the session
   try {
@@ -18,6 +18,6 @@ router.delete('/', isAuthenticated, async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: 'Failed to delete user', error: error.message });
   }
-});
+}); 
 
-module.exports = router;
+module.exports = router; */

@@ -14,7 +14,7 @@ const signupRouter = require('./Routes/signup');
 const loginRouter = require('./Routes/login');
 const logoutRouter = require('./Routes/logout');
 const changePasswordRouter = require('./Routes/changePassword');
-const deleteUserRouter = require('./Routes/deleteUser');
+//const deleteUserRouter = require('./Routes/deleteUser');
 const blogpostRouter = require('./Controllers/blogpostRoute');
 const searchBlogPostRouter = require('./Controllers/blogpostRoute');
 const commentRouter = require('./Controllers/commentRoute');
@@ -26,7 +26,7 @@ const authRouter = require('./Routes/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-//const FrontendURL = process.env.FRONTEND_URL;
+const FrontendURL = process.env.FRONTEND_URL;
 const secretKey = process.env.SECRET_KEY;
 const mongoURI = process.env.MONGODB_URI;
 const MongoDBStore = connectMongoDBSession(session);
@@ -37,7 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 const corsOptions = {
-    //origin: FrontendURL,
+    origin: FrontendURL,
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -56,9 +56,9 @@ const sessionConfig = ({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // 1 day 
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        httpOnly: true, 
         sameSite: "none", // use "none" in production
-        httpOnly: true,
         secure: true, // use with https in production
     },
     store: new MongoDBStore({
@@ -78,7 +78,7 @@ app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/change-password', changePasswordRouter);
-app.use('/delete-user', deleteUserRouter);
+//app.use('/delete-user', deleteUserRouter);
 app.use('/blogpost', blogpostRouter);
 app.use('/comment', commentRouter);
 app.use('/auth/github', githubOauthRouter);
