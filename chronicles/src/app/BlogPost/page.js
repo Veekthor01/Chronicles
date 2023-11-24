@@ -14,7 +14,7 @@ async function getBlogPosts(page = 1, limit = 1) {
     console.log('Response Status:', response.status);
     const data = await response.json();
      console.log('Parsed Data:', data);
-    return data;
+    return {data: data, blogPosts: data.blogPosts, count: data.count};
   } catch (error) {
     console.error(error);
     throw error;
