@@ -8,6 +8,7 @@ const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const BACKEND_URL = process.env.BACKEND_URL;
 
 // Github Strategy for Passport Authentication
 passport.use(
@@ -15,7 +16,7 @@ passport.use(
         {
             clientID: GITHUB_CLIENT_ID,
             clientSecret: GITHUB_CLIENT_SECRET,
-            callbackURL: 'http://localhost:5000/auth/github/callback',
+            callbackURL: `${BACKEND_URL}/auth/github/callback`,
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
@@ -44,7 +45,7 @@ passport.use(
         {
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: 'http://localhost:5000/auth/google/callback',
+            callbackURL: `${BACKEND_URL}/auth/google/callback`,
         },
         async (token, tokenSecret, profile, done) => {
             try {
