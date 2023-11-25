@@ -25,6 +25,7 @@ const forgotPasswordRouter = require('./Routes/forgotPassword');
 const authRouter = require('./Routes/auth');
 
 const app = express();
+app.set('trust proxy', 1); // set in production
 const PORT = process.env.PORT || 5000;
 const FrontendURL = process.env.FRONTEND_URL;
 const secretKey = process.env.SECRET_KEY;
