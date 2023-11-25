@@ -68,7 +68,7 @@ const sessionConfig = ({
     }),
 });
 
-app.use(cookieParser());
+app.use(cookieParser(secretKey));
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
