@@ -42,6 +42,12 @@ router.post('/', async (req, res, next) => {
                     console.error('Error logging in:', err);
                     return res.status(500).json({ message: 'Error logging in' });
                 } else {
+                    res.cookie('session', req.sessionID, { 
+                        maxAge: 24 * 60 * 60 * 1000, // 1 day
+                        httpOnly: true, 
+                        sameSite: "none", 
+                        secure: true, 
+                    });
                     // Login was successful
                     return res.status(200).json({ message: 'Login successful' });
                 }

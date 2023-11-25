@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-//const helmet = require('helmet');
+const helmet = require('helmet');
 const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
@@ -41,7 +41,7 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
-/*app.use(helmet.noSniff());
+app.use(helmet.noSniff());
 app.use(helmet.frameguard({ action: "sameorigin" }));
 app.use(helmet.contentSecurityPolicy({
     directives: {
@@ -49,7 +49,7 @@ app.use(helmet.contentSecurityPolicy({
         styleSrc: ["'self'"],
         scriptSrc: ["'self'"],
     }
-})); */
+}));
 
 const sessionConfig = ({
     secret: secretKey,
