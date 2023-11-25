@@ -44,6 +44,13 @@ router.post('/', async (req, res, next) => {
                 } else {
                     // Set the user object on the session
                     req.session.user = user;
+                    // Set the session expiration date to 1 day from login
+                    res.cookie('session', req.sessionID, { 
+                        maxAge: 24 * 60 * 60 * 1000, // 1 day
+                        httpOnly: true, 
+                        sameSite: "none", 
+                        secure: true, 
+                    });
                     // Login was successful
                     return res.status(200).json({ message: 'Login successful' });
                 }
