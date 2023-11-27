@@ -5,6 +5,9 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
+const RateLimitMongo = require('rate-limit-mongo');
 const connectMongoDBSession = require('connect-mongodb-session');
 const { connectDB, closeDBConnection } = require('./DB/db');
 require('dotenv').config();
@@ -34,8 +37,23 @@ const MongoDBStore = connectMongoDBSession(session);
 
 connectDB();
 
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const limiter = rateLimit({
+    store: new RateLimitMongo({
+        uri: mongoURI,
+        collectionName: 'rate-limit',
+        expireTimeMs: 60 * 1000, // 1 minute set to 15 * 60 * 1000 for 15 minutes
+        resetExpireDateOnChange: true,
+        errorHandler: console.error.bind(null, 'rate-limit-mongo'),
+    }),
+    windowMs: 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 100 requests per windowMs set to 100
+    message: "You have exceeded your request limit. Please try again later.",
+    headers: true,
+});
+app.use(limiter);
 app.use(morgan('dev'));
 const corsOptions = {
     origin: FrontendURL,
@@ -92,7 +110,7 @@ app.use('/api', searchBlogPostRouter);
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send({ error: err.message });
+    res.status(500).send({ error: 'An unexpected error occurred' });
   });
 
 app.listen(PORT, () => {
