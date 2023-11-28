@@ -6,8 +6,8 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-const rateLimit = require('express-rate-limit');
-const RateLimitMongo = require('rate-limit-mongo');
+//const rateLimit = require('express-rate-limit');
+//const RateLimitMongo = require('rate-limit-mongo');
 const connectMongoDBSession = require('connect-mongodb-session');
 const { connectDB, closeDBConnection } = require('./DB/db');
 require('dotenv').config();
@@ -40,7 +40,7 @@ connectDB();
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const limiter = rateLimit({
+/*const limiter = rateLimit({
     store: new RateLimitMongo({
         uri: mongoURI,
         collectionName: 'rate-limit',
@@ -53,7 +53,7 @@ const limiter = rateLimit({
     message: "You have exceeded your request limit. Please try again later.",
     headers: true,
 });
-app.use(limiter);
+app.use(limiter);*/
 app.use(morgan('dev'));
 const corsOptions = {
     origin: FrontendURL,
