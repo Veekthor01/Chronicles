@@ -1,15 +1,15 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import CreateComment from "./Create-Comment/page";
-import { checkIsAuthenticated } from "../../../utils/auth";
+//import { checkIsAuthenticated } from "../../../utils/auth";
 
 export default function NewComment({ blogPostId }) {
     const [author, setAuthor] = useState("");
     const [content, setContent] = useState("");
     const router = useRouter();
 
-    useEffect(() => {
+    /*useEffect(() => {
       const redirectToLogin = async () => {
         const isAuthenticated = await checkIsAuthenticated();
   
@@ -19,7 +19,7 @@ export default function NewComment({ blogPostId }) {
       }
 
       redirectToLogin();
-    }, [router]);
+    }, [router]); */
     
     const handleSubmit = async (e) => {
         e.preventDefault();

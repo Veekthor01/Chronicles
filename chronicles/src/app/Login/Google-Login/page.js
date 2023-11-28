@@ -25,8 +25,10 @@ export default function GoogleLogin() {
     return (
         <div>
             <button onClick={handleGoogleLogin} disabled={isLoading} className="border border-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 text-sm tracking-wide text-gray-900 dark:text-gray-200 py-2 px-4 rounded-lg w-full">
-                <FontAwesomeIcon icon={faGoogle} className="mr-2 text-base" />
+                <div className="flex items-center justify-center">
+                <FontAwesomeIcon icon={faGoogle} className="mr-2 text-base w-4 h-4" />
                 {isLoading ? 'Logging in...' : 'Log in with Google'}
+            </div>
             </button>
         </div>
     );
