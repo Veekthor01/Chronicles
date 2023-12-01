@@ -26,7 +26,7 @@ const forgotPasswordRouter = require('./Routes/forgotPassword');
 const authRouter = require('./Routes/auth');
 
 const app = express();
-//app.set('trust proxy', 1); // set in production
+app.set('trust proxy', 1); // set in production
 const PORT = process.env.PORT || 5000;
 const FrontendURL = process.env.FRONTEND_URL;
 const secretKey = process.env.SECRET_KEY;
@@ -63,8 +63,8 @@ const sessionConfig = ({
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 1 day
         httpOnly: true, 
-        sameSite: "lax", // use "none" in production
-        //secure: true, // use with https in production
+        sameSite: "none", // use "none" in production
+        secure: true, // use with https in production
     },
     store: new MongoDBStore({
         uri: mongoURI,
