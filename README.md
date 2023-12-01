@@ -3,7 +3,7 @@
 
 ## Description
 
-#### Chronicles is a simple and dynamic blog application built using Next.js, Express, and MongoDB. The platform is built for the purpose of creating and engaging with blog content
+#### Chronicles is a simple and dynamic blog application built using Next.js, Express, and MongoDB. The platform is built for the purpose of creating and engaging with blog content.
 
 ## Features
 
@@ -56,7 +56,6 @@ The development server will start at http://localhost:3000. You can open this UR
 - `FRONTEND_URL`: The URL of the frontend application.
 - `SECRET_KEY`: The secret key for session management.
 - `MONGODB_URI`: The URI of your MongoDB database.
-optionally:
 - `GOOGLE_CLIENT_ID`: Your Google OAuth client ID.
 - `GOOGLE_CLIENT_SECRET`: Your Google OAuth client secret.
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID.
