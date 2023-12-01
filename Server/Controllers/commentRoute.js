@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { insertComment, getComments, getCommentById, updateComment, deleteComment, } = require('../DB/comment');
 const isAuthenticated = require('../Passport-Config/Authenticated');
+const limiter = require('../Routes/rateLimiter');
 
 // Get all comments
 router.get('/', async (req, res) => {
@@ -28,7 +29,7 @@ router.get('/', async (req, res) => {
   });
 
 // Create a new comment with the associated blog post ID
-router.post('/', isAuthenticated, async (req, res) => {
+router.post('/', isAuthenticated, limiter, async (req, res) => {
   const { author, content, blogPostId } = req.body;
   if (!author || !content || !blogPostId) {
       return res.status(400).json({ message: 'Author, content, and blogPostId are required.' });

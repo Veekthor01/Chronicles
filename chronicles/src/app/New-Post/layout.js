@@ -1,3 +1,5 @@
+import Footer from "@/components/Footer"
+
 export const metadata = {
     title: 'Create New Post',
     description: 'Create a new post',
@@ -5,6 +7,9 @@ export const metadata = {
   
 export default function NewPostLayout({ children }) {
     return (
-    <section>{children}</section>
+    <section>
+      {children}
+      <Footer />
+      </section>
     )
   }

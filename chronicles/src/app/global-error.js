@@ -1,5 +1,6 @@
 'use client'
  
+// Function to handle errors in root components
 export default function GlobalError({ error, reset }) {
   return (
     <html>

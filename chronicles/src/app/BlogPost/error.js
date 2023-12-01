@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 
+// Function to handle runtime errors in routes
 export default function Error({ error, reset }) {
   useEffect(() => {
     // Log the error to an error reporting service
@@ -13,9 +14,10 @@ export default function Error({ error, reset }) {
       <h2 className="text-2xl font-bold text-red-500 dark:text-red-400 mb-4">
       Oops! Something went wrong!
       </h2>
-      <button onClick={() => reset()}
-        className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-500"
-      >
+      <button onClick={
+        // Attempt to recover by trying to re-render the segment
+        () => reset()}
+        className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-500">
         Try again
       </button>
     </div>

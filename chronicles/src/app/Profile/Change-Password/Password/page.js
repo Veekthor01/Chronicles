@@ -1,7 +1,7 @@
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default async function ChangePassword (currentPassword, newPassword) {
-    const changePassword = `${backendUrl}/changepassword`;
+    const changePassword = `${backendUrl}/change-password`;
     const options = {
         method: 'PUT',
         headers: {
@@ -23,10 +23,8 @@ export default async function ChangePassword (currentPassword, newPassword) {
           } else {
             // Login failed
             if (response.status === 401) {
-              // Unauthorized - user not authenticated
               throw new Error('Unauthorized');
             } else if (response.status === 400) {
-              // Handle specific error messages from the backend
               if (data.message === 'Current password is incorrect') {
                 throw new Error('Current password is incorrect');
               } else if (data.message === 'Password must be at least 4 characters') {

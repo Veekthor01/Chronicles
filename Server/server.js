@@ -6,8 +6,6 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-const rateLimit = require('express-rate-limit');
-const RateLimitMongo = require('rate-limit-mongo');
 const connectMongoDBSession = require('connect-mongodb-session');
 const { connectDB, closeDBConnection } = require('./DB/db');
 require('dotenv').config();
@@ -28,7 +26,7 @@ const forgotPasswordRouter = require('./Routes/forgotPassword');
 const authRouter = require('./Routes/auth');
 
 const app = express();
-app.set('trust proxy', 1); // set in production
+//app.set('trust proxy', 1); // set in production
 const PORT = process.env.PORT || 5000;
 const FrontendURL = process.env.FRONTEND_URL;
 const secretKey = process.env.SECRET_KEY;
@@ -37,23 +35,10 @@ const MongoDBStore = connectMongoDBSession(session);
 
 connectDB();
 
+// Middleware configuration
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const limiter = rateLimit({
-    store: new RateLimitMongo({
-        uri: mongoURI,
-        collectionName: 'rate-limit',
-        expireTimeMs: 60 * 1000, // 1 minute set to 15 * 60 * 1000 for 15 minutes
-        resetExpireDateOnChange: true,
-        errorHandler: console.error.bind(null, 'rate-limit-mongo'),
-    }),
-    windowMs: 60 * 1000, // 15 minutes
-    max: 5, // limit each IP to 100 requests per windowMs set to 100
-    message: "You have exceeded your request limit. Please try again later.",
-    headers: true,
-});
-app.use(limiter);
 app.use(morgan('dev'));
 const corsOptions = {
     origin: FrontendURL,
@@ -70,6 +55,7 @@ app.use(helmet.contentSecurityPolicy({
     }
 }));
 
+// Session configuration
 const sessionConfig = ({
     secret: secretKey,
     resave: false,
@@ -77,8 +63,8 @@ const sessionConfig = ({
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 1 day
         httpOnly: true, 
-        sameSite: "none", // use "none" in production
-        secure: true, // use with https in production
+        sameSite: "lax", // use "none" in production
+        //secure: true, // use with https in production
     },
     store: new MongoDBStore({
         uri: mongoURI,
@@ -113,6 +99,7 @@ app.use((err, req, res, next) => {
     res.status(500).send({ error: 'An unexpected error occurred' });
   });
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}.`);
 })

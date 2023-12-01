@@ -1,9 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const { connectDB } = require('../DB/db');
+const limiter = require('./rateLimiter');
 
 const router = express.Router();
 
+// Route to check if the token is valid
 router.get('/', async (req, res) => {
     const { token } = req.query;
     try {
@@ -22,7 +24,8 @@ router.get('/', async (req, res) => {
     }
   });  
 
-  router.post('/', async (req, res) => {
+  // Route to reset the password
+  router.post('/', limiter, async (req, res) => {
     const { token, newPassword } = req.body;
     try {
       const db = await connectDB();

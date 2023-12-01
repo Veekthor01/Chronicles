@@ -56,7 +56,7 @@ async function getCommentById(id) {
 async function updateComment(id, content) {
     const db = await connectDB();
     const commentCollection = db.collection('comment');
-    const timestamp = new Date(); // Generate the current timestamp
+    const timestamp = format(new Date(), 'do MMMM, yyyy');
     try {
         const result = await commentCollection.updateOne(
             { _id: new ObjectId(id) },

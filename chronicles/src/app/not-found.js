@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation';
 
+// Global 404 page
 export default function NotFound() {
     const router = useRouter();
 

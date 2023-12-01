@@ -1,23 +1,14 @@
 const express = require('express');
 const passport = require('passport');
 const validator = require('validator');
+const limiter = require('./rateLimiter');
 require('../Passport-Config/passport');
 const { getUserByEmail } = require('../DB/user');
 
 const router = express.Router();
 
-/* GET route for rendering the signup page
-router.get('/', (req, res) => {
-    try {
-        return res.render('signup');
-    } catch (error) {
-        console.error('An error occurred:', error);
-        return res.status(500).json({ message: 'An error occurred while rendering the signup page.' });
-    }
-}); */
-
 // POST route for handling the signup form submission
-router.post('/', async (req, res, next) => {
+router.post('/', limiter, async (req, res, next) => {
     const { email, password } = req.body;
     // Validate the user input
     if (!validator.isEmail(email)) {

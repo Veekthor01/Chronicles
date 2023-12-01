@@ -1,4 +1,4 @@
-// LoadingOverlay.js
+// Loading component for switching from signup to login route
 export default function LoadingOverlay({ message }) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-slate-900 bg-opacity-50 text-white text-2xl">

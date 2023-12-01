@@ -24,7 +24,7 @@ export default async function SignupUser (email, password) {
         } else {
           // Signup failed
           if (response.status === 400) {
-            // Handle specific error messages from the backend
+            // Handle specific error messages from the server
             if (data.message === 'Invalid email format') {
               throw new Error('Invalid email format')
             } else if (data.message === 'Email already taken') {

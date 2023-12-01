@@ -1,11 +1,13 @@
 'use client'
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import DeleteAccount from './DeleteUser/page';
 import { checkIsAuthenticated } from '../../../../utils/auth';
 import Logout from '../Logout/page';
 
 export default function DeleteAccountPage() {
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -28,23 +30,25 @@ export default function DeleteAccountPage() {
       if (confirmed) {
         try {
           // Get the user ID from the session
-          const response = await DeleteAccount();
+          const response = DeleteAccount();
           if (response) {
-            alert('Account deleted successfully');
-            router.push('/');
+            setMessage('Account deleted successfully');
+            setTimeout(() => setMessage(''), 3000);
+            router.push('/Login');
             await Logout();
           } else {
-            alert('Failed to delete account. User not found or an error occurred.');
+            setError('Failed to delete account. Please try again later.');
+            setTimeout(() => setError(''), 5000);
           }
         } catch (error) {
           console.error('Error:', error);
       
           if (error.message === 'Not Authorized') {
-            alert('User not authenticated. Please log in.');
+            setError('Unauthorized. Please login.');
           } else if (error.message === 'User not found') {
-            alert('User not found. Please refresh the page.');
+            setError('User not found');
           } else {
-            alert('Failed to delete account. An unexpected error occurred.');
+            setError('Failed to delete account. An unexpected error occured.');
           }
         }
       }      
@@ -53,9 +57,9 @@ export default function DeleteAccountPage() {
     return (
       <div className='min-h-screen flex items-center justify-center'>
             <div className="flex flex-col items-center">
-            <div className="max-w-md w-full px-8 py-10 bg-white dark:bg-slate-800 rounded-md shadow-xl">
-        <h1 className="mt-2 text-center text-2xl font-bold mb-4 text-red-600 tracking-wide">Delete Your Account</h1>
-        <p className="text-gray-500 mb-4 tracking-wide">
+            <div className="max-w-md w-11/12 sm:w-full px-4 sm:px-8 py-10 bg-white dark:bg-slate-800 rounded-md shadow-lg">
+        <h1 className="mt-2 text-center text-xl sm:text-2xl font-bold mb-4 text-red-600 tracking-wide">Delete Your Account</h1>
+        <p className="text-gray-700 dark:text-gray-400 mb-4 tracking-wide">
           Warning: Deleting your account is not reversible. All your data will be lost.
         </p>
         <button
@@ -65,6 +69,8 @@ export default function DeleteAccountPage() {
           Delete Account
         </button>
       </div>
+      {error && <p className="text-red-500 text:sm md:text-base italic mt-2">{error}</p>}
+      {message && <p className="text-green-500 text:sm md:text-base italic mt-2">{message}</p>}
       </div>
       </div>
     );

@@ -1,5 +1,6 @@
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+// Function to Check if the user is authenticated
 export const checkIsAuthenticated = async () => {
     const checkAuth = `${backendUrl}/check-auth`;
     try {
@@ -16,7 +17,7 @@ export const checkIsAuthenticated = async () => {
   
       if (response.ok) {
         const data = await response.json();
-        return data.isAuthenticated; // Adjust this based on your server response
+        return data.isAuthenticated;
       } else {
         console.error('Failed to check authentication status');
         return false;

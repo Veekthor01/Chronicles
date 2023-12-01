@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Footer from '../../../../components/Footer';
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+// Function to generate metadata for each blog post page
 export async function generateMetadata({ params, searchParams }, parent) {
   // Read route params
   const page = params.page;
@@ -34,12 +34,13 @@ export async function generateMetadata({ params, searchParams }, parent) {
   };
 }
 
+// Function to fetch pages of blog posts
 async function getOtherPagesOfBlogPosts(page) {
  const blogPostURL = `${backendUrl}/blogpost?page=${page}`;
   try {
     const response = await fetch(blogPostURL, {
       next: {
-        revalidate: 0,
+        revalidate: 3600,
       },
     });
     const data = await response.json();
@@ -55,30 +56,46 @@ async function getOtherPagesOfBlogPosts(page) {
   }
 }
 
+// Function to generate static paths for each blog post page
 export default async function BlogPages({ params }) {
   const blogPostResponse = await getOtherPagesOfBlogPosts(params.page);
   const blogPosts = blogPostResponse.blogPosts || []; // Handle empty blogPosts array
   const totalBlogPosts = blogPostResponse.count;
 
   // Calculate the total number of pages
-  const totalPages = Math.ceil(totalBlogPosts / 1);
+  const totalPages = Math.ceil(totalBlogPosts / 8);
   const currentPage = parseInt(params.page); 
 
   return (
-    <div className='min-h-screen'>
-    <div className="flex flex-wrap flex-row justify-center mt-4">
+    <div className='min-h-screen mt-6'>
+      <div className="grid gap-3 lg:grid-cols-2">
       {blogPosts.map((blogPost) => (
-        <div key={blogPost._id} className="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 m-4 w-1/5">
+        <div
+          key={blogPost._id}
+          className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 m-4"
+        >
           <Link href={`/BlogPost/${blogPost._id}`}>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200">{blogPost.title}</h1>
-            <p className="mt-2 text-gray-900 dark:text-gray-200">{blogPost.content.slice(0, 100)}</p>
-          <p className="mt-2 text-gray-900 dark:text-gray-200">Author: {blogPost.author}</p>
-          <p className='mt-2 text-gray-900 dark:text-gray-200'>Published on: {blogPost.timestamp}</p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">
+              {blogPost.title}
+            </h1>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">
+              {blogPost.content.slice(0, 200)}
+            </p>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">
+              Author: {blogPost.author}
+            </p>
+            <p className="mt-2 text-sm text-gray-900 dark:text-gray-200 tracking-wide">
+              Published on: {blogPost.timestamp}
+            </p>
           </Link>
         </div>
       ))}
-      {blogPosts.length === 0 && <h1 className="text-xl text-gray-900 dark:text-gray-200">No blog posts found.</h1>}
-        </div>
+      {blogPosts.length === 0 && (
+        <h1 className="text-lg lg:text-xl text-gray-900 dark:text-gray-200 tracking-wide">
+          No blog posts found.
+        </h1>
+      )}
+    </div>
 
         <div className="flex flex-row justify-center mt-4 space-x-4">
         {currentPage > 1 && ( // Check if the current page is greater than 1
@@ -107,7 +124,6 @@ export default async function BlogPages({ params }) {
           ))}
         </ul>
       </div>
-      <Footer />
     </div>
   );
 }

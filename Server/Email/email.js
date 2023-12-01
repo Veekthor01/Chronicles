@@ -4,6 +4,7 @@ require('dotenv').config();
 const email = process.env.EMAIL_HOST_USER;
 const appPassword = process.env.EMAIL_HOST_APP_PASSWORD;
 
+// Configure the email transport
 const emailConfig = {
   service: 'Gmail',
   auth: {
@@ -11,7 +12,7 @@ const emailConfig = {
     pass: appPassword,
   },
   tls: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: true,// set to false when testing in development
   },
 };
 

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import PasswordForgot from './Password-Forgot/page';
 
+// Function to handle forgot password
 function ForgotPassword() {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -18,9 +19,11 @@ function ForgotPassword() {
     return (
         <div className='min-h-screen flex items-center justify-center'>
             <div className="flex flex-col items-center">
-            <div className="max-w-md w-full px-8 py-10 bg-white dark:bg-slate-800 rounded-md shadow-xl">
-            <h2 className='mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4 tracking-wide'>Forgot Password</h2>
-            <h3 className='text-xl mb-4 text-center font-bold text-gray-900 dark:text-gray-200 tracking-wide'>Enter your registered email address to reset your password.</h3>
+            <div className="max-w-md w-11/12 sm:w-full px-4 sm:px-8 py-10 bg-white dark:bg-slate-800 rounded-md shadow-lg">
+            <h2 className='mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4 tracking-wide'>Forgot Password?</h2>
+            <h3 className='mb-8 text-center text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide'>
+                Enter your registered email address to reset your password.
+                </h3>
             <label className='inline-block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200 tracking-wide'>Email</label>
             <input
                 type="email"

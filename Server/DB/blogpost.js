@@ -18,7 +18,7 @@ async function insertBlogPost(title, author, authorId, content) {
 };
 
 // Get all blog posts with pagination
-async function getBlogPosts(page = 1, limit = 1) {
+async function getBlogPosts(page = 1, limit = 8) {
     const db = await connectDB();
     const blogCollection = db.collection('blogpost');
     try {
@@ -70,7 +70,7 @@ async function getBlogPostById(id) {
 async function updateBlogPost(id, title, author, content) {
     const db = await connectDB();
     const blogCollection = db.collection('blogpost');
-    const timestamp = new Date(); // Generate the current timestamp
+    const timestamp = format(new Date(), 'do MMMM, yyyy');
     try {
         const result = await blogCollection.updateOne(
             { _id: new ObjectId(id) },

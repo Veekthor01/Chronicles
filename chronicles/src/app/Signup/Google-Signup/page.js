@@ -16,7 +16,6 @@ export default function GoogleSignup() {
             window.location.href = googleAuthURL;
         } catch (error) {
             console.error(error);
-            // Handle error as needed
         } finally {
             setIsLoading(false);
         }

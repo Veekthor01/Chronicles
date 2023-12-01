@@ -2,12 +2,14 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Logout from './Logout/page';
+import SearchBar from '@/components/searchbar';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
+// Dropdown menu for user profile
 export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -24,7 +26,7 @@ export default function ProfileDropdown() {
         setIsOpen(!isOpen);
       }
     };
-    // If the item is active (ie open) then listen for clicks
+    // If the item is active, then listen for clicks
     if (isOpen) {
       window.addEventListener('click', pageClickEvent);
     }
@@ -37,7 +39,7 @@ export default function ProfileDropdown() {
   const logoutUser = async () => {
     try {
     await Logout();
-    router.push('/'); // Redirect after successful logout
+    router.push('/');
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -45,9 +47,9 @@ export default function ProfileDropdown() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button onClick={toggleDropdown} className="text-base text-slate-900 dark:text-white">Profile</button>
+      <button onClick={toggleDropdown} className="text-sm sm:text-base text-slate-900 dark:text-white">Profile</button>
       {isOpen && (
-        <ul className="absolute w-44 top-10 right-0 bg-white dark:bg-slate-800 rounded-md shadow-md p-3">
+        <ul className="absolute w-56 md:w-44 top-10 right-0 bg-white dark:bg-slate-800 rounded-md shadow-md p-3">
           <li className='mb-3'>
             <Link href="/Profile/Change-Password" className='text-sm tracking-wide text-gray-900 dark:text-gray-200'>
             <FontAwesomeIcon icon={faLock} className='mr-2' />Change Password</Link>
@@ -56,13 +58,16 @@ export default function ProfileDropdown() {
             <Link href="/Profile/Delete-Account" className='text-sm tracking-wide text-gray-900 dark:text-gray-200'>
             <FontAwesomeIcon icon={faTrashAlt} className='mr-2' />Delete Account</Link>
           </li>
-          <li className='mb-2'>
+          <li className='mb-6 md:mb-2'>
               <Link href="#" onClick={logoutUser} className='text-sm tracking-wide text-gray-900 dark:text-gray-200'>
               <FontAwesomeIcon icon={faSignOutAlt} className='mr-2' /> Logout
               </Link>
           </li>
+          <div className='md:hidden block'>
+            <SearchBar />
+          </div>
         </ul>
-      )}
-    </div>
+        )}
+      </div>
   );
 }

@@ -1,5 +1,6 @@
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+// Request to logout user
 export default async function Logout () {
     const logout = `${backendUrl}/logout`;
     try {

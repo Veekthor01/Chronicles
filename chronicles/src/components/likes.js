@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import './likes.css';
 
+// Function to like a blog post
 export default function LikePost({ blogPost }) {
     const [likes, setLikes] = useState(0);
   const [userLiked, setUserLiked] = useState(false);

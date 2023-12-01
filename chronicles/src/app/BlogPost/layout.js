@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Footer from "@/components/Footer"
 
 export const metadata = {
     title: 'BlogPosts',
@@ -8,17 +9,18 @@ export const metadata = {
 export default function BlogPostLayout({ children }) {
     return (
     <section>
-        <nav className="w-full z-10 flex flex-row items-center justify-between p-3 border-b-2 border-b-black bg-gradient-to-r from-green-500 to-indigo-500">
+        <nav className="w-full z-10 flex flex-row items-center justify-center lg:justify-between p-3 border-b-2 border-b-black bg-gradient-to-r from-green-500 to-indigo-500">
       <Image
         src="/logo.svg"
         alt='Chronicles Logo'
         width={100}
         height={100}
-        className='ml-16 w-40'
+        className='ml-0 lg:ml-16 w-32 lg:w-40'
         priority
         />
         </nav>
         {children}
+        <Footer />
         </section>
         )
   }

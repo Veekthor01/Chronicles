@@ -49,24 +49,24 @@ export default function SearchBar() {
 
   return (
       <div>
-      <div className='flex items-center'> {/* Added flex container */}
+      <div className='flex items-center'>
     <input
       type="text"
       placeholder="Search by title or author"
       value={searchQuery}
-      className='py-2 px-2 bg-white dark:bg-gray-700 rounded-lg tracking-wide border text-gray-900 dark:text-gray-200 border-gray-300 focus:outline-none focus:border-indigo-700'
+      className='text-xs md:text-base py-2 px-2 w-40 md:w-52 bg-white dark:bg-gray-700 rounded-none md:rounded-lg tracking-wide border text-gray-900 dark:text-gray-200 border-gray-300 focus:outline-none focus:border-indigo-700'
       style={{ marginRight: '0.5rem' }}
       onChange={(e) => setSearchQuery(e.target.value)}
     />
-    <button type="button" onClick={handleSearch}> {/* Added margin to the button */}
+    <button type="button" onClick={handleSearch}>
       <FontAwesomeIcon
         icon={faSearch}
-        className="text-gray-200 bg-indigo-600 py-3 px-3 rounded-lg" /* Added background and padding */
+        className="text-gray-200 bg-indigo-600 py-2 px-2 md:py-3 md:px-3 rounded-none md:rounded-lg w-4 h-4"
       />
     </button>
     </div>
       {isLoading && <div>Loading...</div>}
-      {error && <div>{error}</div>}
+      {error && <div className='text-sm md:text-base'>{error}</div>}
     </div>
   );
 }

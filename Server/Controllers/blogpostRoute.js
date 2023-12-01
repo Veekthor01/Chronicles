@@ -4,11 +4,12 @@ const { insertBlogPost, getBlogPosts, getBlogPostById, getBlogPostCount, updateB
 getAllBlogPosts } = require('../DB/blogpost');
 const { getCommentsByBlogPostId } = require('../DB/comment');
 const isAuthenticated = require('../Passport-Config/Authenticated');
+const limiter = require('../Routes/rateLimiter');
 
 // Get all blog posts with pagination
 router.get('/', async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Get the page parameter from the query or default to 1
-  const limit = parseInt(req.query.limit) || 1; // Get the limit parameter from the query or default to 10
+  const limit = parseInt(req.query.limit) || 8; // Get the limit parameter from the query or default to 8
     try {
       const blogPosts = await getBlogPosts(page, limit);
       const count = await getBlogPostCount();
@@ -46,9 +47,9 @@ router.get('/search', async (req, res) => {
   });
 
 // Create a new blog post
-router.post('/', isAuthenticated,  async (req, res) => {
+router.post('/', isAuthenticated, limiter, async (req, res) => {
     const { title, author, content } = req.body;
-    const user = req.user; // Assuming that your authentication middleware sets the user object
+    const user = req.user; // Get the user from the request
     if (!user) {
     return res.status(401).json({ message: 'User not authenticated.' });
     }

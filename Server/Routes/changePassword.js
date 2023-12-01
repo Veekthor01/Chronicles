@@ -4,12 +4,14 @@ const validator = require('validator');
 require('../Passport-Config/passport');
 const { changePassword } = require('../DB/user');
 const isAuthenticated = require('../Passport-Config/Authenticated');
+const limiter = require('./rateLimiter');
 
 const router = express.Router();
 
-router.put('/', isAuthenticated, async (req, res) => {
+// Route to change the password
+router.put('/', isAuthenticated, limiter, async (req, res) => {
     const { currentPassword, newPassword } = req.body;
-    const user = req.user; // Assuming you have the user object available in req.user
+    const user = req.user; // Get the user from the request object
     try {
         // Verify the current password
         if (user) {

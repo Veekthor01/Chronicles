@@ -16,7 +16,6 @@ export default function GitHubSignup() {
         window.location.href = githubAuthURL;
         } catch (error) {
         console.error(error);
-        // Handle error as needed
         } finally {
         setIsLoading(false);
         }

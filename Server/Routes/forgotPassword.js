@@ -2,6 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const { connectDB } = require('../DB/db');
 const transporter = require('../Email/email');
+const limiter = require('./rateLimiter');
 require("dotenv").config();
 
 const router = express.Router();
@@ -23,7 +24,8 @@ function generateToken() {
     }
 });
 
-router.post('/', async (req, res) => {
+// Route to send the password reset link to the user's email
+router.post('/', limiter, async (req, res) => {
     const { email } = req.body;
     try {
       const db = await connectDB();

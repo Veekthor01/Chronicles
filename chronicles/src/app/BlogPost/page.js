@@ -2,18 +2,16 @@ import Link from 'next/link';
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-async function getBlogPosts(page = 1, limit = 1) {
-  //await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 3 second
+// Function to fetch blog posts for each page of blog
+async function getBlogPosts(page = 1, limit = 8) {
   const blogPostURL = `${backendUrl}/blogpost?page=${page}&limit=${limit}`;
   try {
     const response = await fetch(blogPostURL, {
       next: {
-        revalidate: 0,
+        revalidate: 3600,
       },
     });
-    //console.log('Response Status:', response.status);
     const data = await response.json();
-     //console.log('Parsed Data:', data);
     return data;
   } catch (error) {
     console.error(error);
@@ -21,36 +19,49 @@ async function getBlogPosts(page = 1, limit = 1) {
   }
 }
 
+// Function to generate static paths for each blog post page
 export default async function BlogPosts({ page = 1 }) {
-    const blogPostsResponse = await getBlogPosts(page, 1);
+    const blogPostsResponse = await getBlogPosts(page, 8);
     const blogPosts = blogPostsResponse.blogPosts; // Access blogPosts from the response
     const totalBlogPosts = blogPostsResponse.count;
   
     // Calculate the total number of pages
-    const totalPages = Math.ceil(totalBlogPosts / 1);
+    const totalPages = Math.ceil(totalBlogPosts / 8);
 
     // Generate an array of page numbers for pagination
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
-    <div>
-    <div className="flex flex-wrap flex-row justify-center mt-4">
-      {blogPosts.map((blogPost) => (
-        <div
-          key={blogPost._id}
-          className="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 m-4 w-1/5"
-        >
+    <div className='min-h-screen'>
+      <div className="mt-6 mb-6 text-center tracking-wide text-xl font-bold text-neutral-900 dark:text-white">
+        <h1>Featured Posts</h1>
+      </div>
+        <div className="grid gap-3 lg:grid-cols-2">
+          {blogPosts.map((blogPost) => (
+        <div key={blogPost._id}
+          className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 m-4">
           <Link href={`/BlogPost/${blogPost._id}`}>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.title}</h1>
-            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">{blogPost.content.slice(0, 100)}</p>
-          <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">Author: {blogPost.author}</p>
-          <p className='mt-2 text-gray-900 dark:text-gray-200 tracking-wide'>Published on: {blogPost.timestamp}</p>
-            </Link>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-200 tracking-wide">
+              {blogPost.title}
+            </h1>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">
+              {blogPost.content.slice(0, 200)}
+            </p>
+            <p className="mt-2 text-gray-900 dark:text-gray-200 tracking-wide">
+              Author: {blogPost.author}
+            </p>
+            <p className="mt-2 text-sm text-gray-900 dark:text-gray-200 tracking-wide">
+              Published on: {blogPost.timestamp}
+            </p>
+          </Link>
         </div>
       ))}
-      {blogPosts.length === 0 && <h1 className="text-xl text-gray-900 dark:text-gray-200 tracking-wide">No blog posts found.</h1>} 
-      </div>
-
+      {blogPosts.length === 0 && (
+        <h1 className="text-lg lg:text-xl text-gray-900 dark:text-gray-200 tracking-wide">
+          No blog posts found.
+        </h1>
+      )}
+    </div>
             {/* Pagination links */}
         <div className="flex flex-row justify-center mt-4">
         {page > 1 && ( // Check if the current page is greater than 1
@@ -83,45 +94,3 @@ export default async function BlogPosts({ page = 1 }) {
     </div>
   );
 }
-
-/*Create an array of page numbers to iterate over in the UI
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    } */
-/* import Link from 'next/link';
-
-async function getBlogPosts () {
-    const blogPosts = 'http://localhost:5000/blogpost'
-    try {
-        const response = await fetch(blogPosts, {
-            next: {
-                revalidate: 0
-            }
-        })
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-export default async function BlogPosts () {
-    const blogPosts = await getBlogPosts();
-    return (
-        <div className="flex flex-wrap flex-row justify-center text-black bg-orange-300">
-  {blogPosts.map((blogPost) => (
-    <div key={blogPost._id} className="bg-white rounded-lg shadow-lg p-6 m-4 w-1/5">
-      <Link href={`/BlogPost/${blogPost._id}`}>
-      <h1 className="text-xl font-bold">{blogPost.title}</h1>
-      <p className="mt-2">{blogPost.content.slice(0, 100)}</p>
-      <p className="mt-2">Author: {blogPost.author}</p>
-      <p>Published on: {blogPost.timestamp}</p>
-        </Link>
-    </div>
-  ))}
-  {blogPosts.length === 0 && <h1 className="text-xl">No blog posts found.</h1>}
-</div>
-)
-};*/

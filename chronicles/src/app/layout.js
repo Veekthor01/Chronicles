@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google'
+import { Lora } from 'next/font/google'
 import './globals.css'
 // import font awesome icons to layout page
 import "@fortawesome/fontawesome-svg-core";
@@ -7,7 +7,10 @@ config.autoAddCss = false;
 
 const frontendUrl = process.env.FRONTEND_URL;
 
-const inter = Inter({ subsets: ['latin'] })
+const lora = Lora({
+   subsets: ['latin'],
+   display: 'swap',
+  })
 
 export const metadata = {
   metadataBase: new URL(frontendUrl).origin,
@@ -18,7 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-100 dark:bg-slate-900`}> 
+      <body className={`${lora.className} bg-gray-100 dark:bg-slate-900`}> 
           {children}
         </body>
     </html>

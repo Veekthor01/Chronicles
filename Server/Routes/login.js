@@ -2,21 +2,13 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const { getUserByEmail } = require('../DB/user');
+const limiter = require('./rateLimiter');
 require('../Passport-Config/passport');
 
 const router = express.Router();
 
-/*router.get('/', (req, res) => {
-    try {
-        res.render('login');
-    } catch (error) {
-        console.error('An error occurred:', error);
-        return res.status(500).send('An error occurred while rendering the login page.');
-    }
-}); */
-
 // POST route for handling the login form submission
-router.post('/', async (req, res, next) => {
+router.post('/', limiter, async (req, res, next) => {
     const { email, password } = req.body;
      // Check if the email is correct or exists in the database
     const user = await getUserByEmail(email);

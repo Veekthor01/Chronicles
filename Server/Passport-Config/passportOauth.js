@@ -38,7 +38,6 @@ passport.use(
     )
 );
  
-
 // Google Strategy for Passport Authentication
 passport.use(
     new GoogleStrategy(
@@ -67,7 +66,6 @@ passport.use(
         }
     )
 );
-
 
 passport.serializeUser(function(user, done) {
     done(null, user);

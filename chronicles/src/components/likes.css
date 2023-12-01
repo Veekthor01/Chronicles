@@ -1,4 +1,3 @@
-/* Add this to your stylesheet */
 .heart-icon.liked-heart {
   color: red;
   cursor: pointer;
@@ -11,4 +10,6 @@
 
 .heart-icon {
   margin-right: 8px;
+  width: 20px;
+  height: 18px;
 }

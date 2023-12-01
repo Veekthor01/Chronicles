@@ -20,7 +20,6 @@ export default async function LoginUser (email, password) {
 
         if (response.ok) {
           // Login was successful
-          //console.log('Cookies:', document.cookie);
           return data
         } else {
           // Login failed

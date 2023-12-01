@@ -7,6 +7,7 @@ import LoginUser from './Login-User/page';
 import GitHubLogin from './Github-Login/page';
 import GoogleLogin from './Google-Login/page';
 
+// Function to handle user login
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +28,6 @@ export default function LoginForm() {
       // Redirect the user to the login page on success
       router.push('/User');
     } catch (error) {
-      // Handle signup errors
       console.error('Error:', error);
 
       if (error.message === 'Incorrect email') {
@@ -43,16 +43,16 @@ export default function LoginForm() {
   return (
     <div className='min-h-screen relative'>
     <div className="flex flex-col items-center justify-center mt-4">
-  <form onSubmit={handleSubmit} className="max-w-md w-3/5 px-8 py-10 bg-white dark:bg-slate-800 rounded-md shadow-xl">
+  <form onSubmit={handleSubmit} className="sm:max-w-md w-11/12 sm:w-3/5 px-4 sm:px-8 py-10 bg-white dark:bg-slate-800 rounded-md shadow-lg">
     <Image
         src="/logo.svg"
         alt='Chronicles Logo'
         width={100}
         height={100}
-        className='mx-auto w-40'
+        className='mx-auto w-24 sm:w-40'
         priority
         />   
-    <h1 className="mt-8 text-center text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4 tracking-wide">Sign In</h1>
+    <h1 className="mt-8 text-center text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4 tracking-wide">Sign In</h1>
     {generalError && <p className='text-red-600'>{generalError}</p>}
     <div className="mb-4">
       <label className="inline-block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200 tracking-wide">Email</label>
@@ -83,16 +83,16 @@ export default function LoginForm() {
     
       <div className="flex items-center mt-6 mb-6">
     <div className="flex-grow border-t border-gray-900 dark:border-gray-500"></div>
-    <span className="mx-4 text-gray-900 dark:text-gray-400 tracking-wide">or</span>
+    <span className="mx-4 text-sm sm:text-base text-gray-900 dark:text-gray-400 tracking-wide">or</span>
     <div className="flex-grow border-t border-gray-900 dark:border-gray-500"></div>
   </div>
 
-<div className="flex justify-between">
+  <div className="flex flex-col md:flex-row justify-between space-y-3 sm:space-y-0">
   <GitHubLogin />
   <GoogleLogin />
 </div>
 
-<div className="flex items-center mt-5 text-sm">
+<div className="flex items-center mt-5 text-xs sm:text-sm">
   <h1 className="mr-1 text-gray-900 dark:text-gray-200 tracking-wide">Don't have an account yet?</h1>
   <Link href="/Signup" className='text-indigo-600 dark:text-indigo-300 hover:underline tracking-wide'>Sign up here</Link>
 </div>
