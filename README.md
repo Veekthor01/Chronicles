@@ -3,7 +3,7 @@
 
 ## Description
 
-##### Chronicles is a simple and dynamic blog application built using Next.js, Express, and MongoDB. The platform is built for the purpose of creating and engaging with blog content
+#### Chronicles is a simple and dynamic blog application built using Next.js, Express, and MongoDB. The platform is built for the purpose of creating and engaging with blog content
 
 ## Features
 
@@ -16,7 +16,8 @@
 * Dynamic Theme Switching: Dark/Light theme feature to ensure custom reading experience.
 
 ## Installation
-##### To run Chronicles on your local machine, clone or download the repository and follow these steps:
+#### To run Chronicles on your local machine, clone or download the repository and follow these steps:
+
 #### To run the Express backend:
 Change into the project directory e.g
 ```
@@ -49,9 +50,9 @@ The development server will start at http://localhost:3000. You can open this UR
 
 ## Set up environmental variables
 
-#### For Express backend:
-##### Create a .env file in the root directory,
-##### You need to set the following in your .env file:
+### For Express backend:
+#### Create a .env file in the root directory,
+#### You need to set the following in your .env file:
 - `FRONTEND_URL`: The URL of the frontend application.
 - `SECRET_KEY`: The secret key for session management.
 - `MONGODB_URI`: The URI of your MongoDB database.
@@ -63,9 +64,9 @@ optionally:
 - `EMAIL_HOST_USER`: The host user of your email service.
 - `EMAIL_HOST_APP_PASSWORD`: The password for your email service.
 
-#### For NextJS:
-##### in your .env.local file,
-##### You need to set the following in your .env.local file:
+### For NextJS:
+#### in your .env.local file,
+#### You need to set the following in your .env.local file:
  - `BACKEND_URL`: The URL of the backend application.
  - `FRONTEND_URL`: The URL of the frontend application.
 
