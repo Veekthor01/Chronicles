@@ -1,5 +1,6 @@
 import { Lora } from 'next/font/google'
 import './globals.css'
+import Provider from '@/components/provider';
 // import font awesome icons to layout page
 import "@fortawesome/fontawesome-svg-core";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${lora.className} bg-gray-100 dark:bg-slate-900`}> 
+        <Provider>
           {children}
+        </Provider>
         </body>
     </html>
   )

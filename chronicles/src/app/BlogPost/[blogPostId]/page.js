@@ -43,7 +43,7 @@ async function getBlogPost (blogPostId) {
     try {
         const response = await fetch(blogPost, {
             next: {
-                revalidate: 3600
+                revalidate: 1800,
             }
         })
         const data = await response.json()

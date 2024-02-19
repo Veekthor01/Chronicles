@@ -23,7 +23,7 @@ async function getBlogPosts(page = 1, limit = 8) {
     const blogCollection = db.collection('blogpost');
     try {
         const skip = (page - 1) * limit; // Calculate the number of items to skip
-        const posts = await blogCollection.find().skip(skip).limit(limit).toArray();
+        const posts = await blogCollection.find().sort({_id: -1}).skip(skip).limit(limit).toArray();
         return posts;
     } catch (error) {
         console.error('Error getting posts:', error);

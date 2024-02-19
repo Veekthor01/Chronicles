@@ -40,7 +40,7 @@ async function getOtherPagesOfBlogPosts(page) {
   try {
     const response = await fetch(blogPostURL, {
       next: {
-        revalidate: 3600,
+        revalidate: 1800,
       },
     });
     const data = await response.json();
@@ -59,7 +59,7 @@ async function getOtherPagesOfBlogPosts(page) {
 // Function to generate static paths for each blog post page
 export default async function BlogPages({ params }) {
   const blogPostResponse = await getOtherPagesOfBlogPosts(params.page);
-  const blogPosts = blogPostResponse.blogPosts || []; // Handle empty blogPosts array
+  const blogPosts = blogPostResponse.blogPosts || [];
   const totalBlogPosts = blogPostResponse.count;
 
   // Calculate the total number of pages

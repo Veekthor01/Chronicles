@@ -9,7 +9,7 @@ export const checkIsAuthenticated = async () => {
           revalidate: 0,
         },
         method: 'GET',
-        credentials: 'include', // Send cookies along with the request
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -27,4 +27,3 @@ export const checkIsAuthenticated = async () => {
       return false;
     }
   };
-  

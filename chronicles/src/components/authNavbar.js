@@ -7,6 +7,7 @@ import ProfileDropdown from '@/app/Profile/page'
 export default function AuthNavbar() {
     return (
         <nav className="flex flex-row items-center justify-between p-1 sm:p-3 bg-green-500">
+        <Link href="/">
         <Image
         src="/logo.svg"
         alt='Chronicles Logo'
@@ -15,6 +16,7 @@ export default function AuthNavbar() {
         className='ml-1 sm:ml-10 lg:ml-16 w-24 sm:w-40'
         priority
         /> 
+        </Link>
         <div className='md:block hidden'>
             <SearchBar />
          </div>

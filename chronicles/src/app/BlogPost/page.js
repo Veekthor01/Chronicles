@@ -8,7 +8,7 @@ async function getBlogPosts(page = 1, limit = 8) {
   try {
     const response = await fetch(blogPostURL, {
       next: {
-        revalidate: 3600,
+        revalidate: 1800,
       },
     });
     const data = await response.json();
